@@ -3,10 +3,12 @@ package com.api.StudyU_Flow.persistence.entity;
 import com.api.StudyU_Flow.persistence.audit.AuditableEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
@@ -14,7 +16,8 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "students")
-public class StudentEntity extends AuditableEntity implements UserDetails {
+@EntityListeners(AuditingEntityListener.class)
+public class StudentEntity extends AuditableEntity implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_student", nullable = false)
@@ -132,6 +135,19 @@ public class StudentEntity extends AuditableEntity implements UserDetails {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    @Override
+    public String toString() {
+        return "StudentEntity{" +
+                "idStudent=" + idStudent +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", gender='" + gender + '\'' +
+                '}';
     }
 
     public static class Builder {
