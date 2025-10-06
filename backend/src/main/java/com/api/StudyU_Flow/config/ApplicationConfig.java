@@ -1,6 +1,6 @@
 package com.api.StudyU_Flow.config;
 
-import com.api.StudyU_Flow.persistence.repository.StudentRepository;
+import com.api.StudyU_Flow.persistence.crud_repository.CrudStudentRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,15 +12,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import lombok.RequiredArgsConstructor;
-
 @Configuration
 public class ApplicationConfig {
 
-    private final StudentRepository studentRepository;
+    private final CrudStudentRepository crudStudentRepository;
 
-    public ApplicationConfig(StudentRepository studentRepository) {
-        this.studentRepository = studentRepository;
+    public ApplicationConfig(CrudStudentRepository crudStudentRepository) {
+        this.crudStudentRepository = crudStudentRepository;
     }
 
     @Bean
@@ -45,7 +43,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailService() {
-        return username -> studentRepository.findByUsername(username)
+        return username -> crudStudentRepository.findByUsername(username)
                 .orElseThrow(()-> new UsernameNotFoundException("User not found"));
     }
 

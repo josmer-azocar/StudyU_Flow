@@ -7,23 +7,23 @@ import java.time.LocalDate;
 
 @Builder
 public record StudentRequestDto(
-        @NotBlank(message = "El nombre de usuario es obligatorio.")
-        @Size(max = 100, message = "El nombre de usuario no puede exceder los 100 caracteres.")
+        @NotBlank(message = "Username is required.")
+        @Size(max = 100, message = "Username cannot exceed 100 characters.")
         String username,
 
-        @NotBlank(message = "La contraseña es obligatoria.")
-        @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres.")
+        @NotBlank(message = "Password is required.")
+        @Size(min = 8, message = "Password must be at least 8 characters long.")
         String password,
 
-        @NotBlank(message = "El nombre es obligatorio.")
-        @Size(max = 25, message = "El nombre no puede exceder los 25 caracteres.")
+        @NotBlank(message = "First name is required.")
+        @Size(max = 25, message = "First name cannot exceed 25 characters.")
         String firstName,
 
-        @NotBlank(message = "El apellido es obligatorio.")
-        @Size(max = 25, message = "El apellido no puede exceder los 25 caracteres.")
+        @NotBlank(message = "Last name is required.")
+        @Size(max = 25, message = "Last name cannot exceed 25 characters.")
         String lastName,
 
-        @NotNull(message = "La fecha de nacimiento es obligatoria.")
+        @NotNull(message = "Date of birth is required.")
         LocalDate dateOfBirth,
 
         @NotNull
