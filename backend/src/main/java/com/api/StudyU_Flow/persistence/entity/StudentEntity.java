@@ -41,6 +41,12 @@ public class StudentEntity extends AuditableEntity implements UserDetails, Seria
     @Column(name = "gender", length = 10)
     private String gender;
 
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private List<StudentDegreeEntity> studentDegrees;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private List<StudentSubjectRecordEntity> records;
+
     public StudentEntity() {
     }
 
