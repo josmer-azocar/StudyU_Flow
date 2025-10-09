@@ -15,7 +15,6 @@ public interface StudentMapper {
     StudentResponseDto toResponseDto(StudentEntity entity);
     List<StudentResponseDto> toResponseDto(Iterable<StudentEntity> entities);
 
-
     @InheritInverseConfiguration
     @Mapping(source ="gender", target = "gender", qualifiedByName = "genderToString")
     StudentEntity toEntity(StudentRequestDto requestDto);

@@ -18,6 +18,15 @@ public class StudentDegreeEntity extends AuditableEntity implements Serializable
     @Column(name = "id_student_degree", nullable = false)
     private Long idStudentDegree;
 
+    @Column(name = "university_name", nullable = false, length = 100)
+    private String universityName;
+
+    @Column(name = "total_credits", nullable = false)
+    private Integer totalCredits;
+
+    @Column(name = "quantity_semesters")
+    private Integer quantitySemesters;
+
     @ManyToOne(targetEntity = StudentEntity.class)
     @JoinColumn(name = "id_student", referencedColumnName = "id_student", insertable = false, updatable = false)
     private StudentEntity student;
@@ -29,8 +38,13 @@ public class StudentDegreeEntity extends AuditableEntity implements Serializable
     public StudentDegreeEntity() {
     }
 
-    public StudentDegreeEntity(Long idStudentDegree) {
+    public StudentDegreeEntity(Long idStudentDegree, String universityName, Integer totalCredits, Integer quantitySemesters, StudentEntity student, DegreeEntity degree) {
         this.idStudentDegree = idStudentDegree;
+        this.universityName = universityName;
+        this.totalCredits = totalCredits;
+        this.quantitySemesters = quantitySemesters;
+        this.student = student;
+        this.degree = degree;
     }
 
     public Long getIdStudentDegree() {
@@ -41,4 +55,27 @@ public class StudentDegreeEntity extends AuditableEntity implements Serializable
         this.idStudentDegree = idStudentDegree;
     }
 
+    public String getUniversityName() {
+        return universityName;
+    }
+
+    public void setUniversityName(String universityName) {
+        this.universityName = universityName;
+    }
+
+    public Integer getTotalCredits() {
+        return totalCredits;
+    }
+
+    public void setTotalCredits(Integer totalCredits) {
+        this.totalCredits = totalCredits;
+    }
+
+    public Integer getQuantitySemesters() {
+        return quantitySemesters;
+    }
+
+    public void setQuantitySemesters(Integer quantitySemesters) {
+        this.quantitySemesters = quantitySemesters;
+    }
 }

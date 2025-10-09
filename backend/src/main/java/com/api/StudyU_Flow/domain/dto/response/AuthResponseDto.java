@@ -1,7 +1,5 @@
 package com.api.StudyU_Flow.domain.dto.response;
 
-import lombok.Builder;
-
 public record AuthResponseDto(
         String token
 ) {

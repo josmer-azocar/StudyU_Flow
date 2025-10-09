@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 @Builder
 public record StudentRequestDto(
+
         @NotBlank(message = "Username is required.")
         @Size(max = 100, message = "Username cannot exceed 100 characters.")
         String username,

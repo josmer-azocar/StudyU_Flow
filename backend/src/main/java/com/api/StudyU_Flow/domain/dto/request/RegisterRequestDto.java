@@ -6,6 +6,7 @@ import lombok.Builder;
 
 @Builder
 public record RegisterRequestDto(
+
         @NotBlank(message = "Username is required.")
         @Size(max = 100, message = "Username cannot exceed 100 characters.")
         String username,
