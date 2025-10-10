@@ -2,10 +2,13 @@ package com.api.StudyU_Flow.persistence.mapper;
 
 import com.api.StudyU_Flow.domain.dto.request.StudentRequestDto;
 import com.api.StudyU_Flow.domain.dto.response.StudentResponseDto;
+import com.api.StudyU_Flow.domain.dto.update.UpdateStudentDto;
 import com.api.StudyU_Flow.persistence.entity.StudentEntity;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+
 import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {GenderMapper.class})
@@ -18,4 +21,6 @@ public interface StudentMapper {
     @InheritInverseConfiguration
     @Mapping(source ="gender", target = "gender", qualifiedByName = "genderToString")
     StudentEntity toEntity(StudentRequestDto requestDto);
+
+    void updateEntityFromDto (UpdateStudentDto updateStudentDto, @MappingTarget StudentEntity studentEntity);
 }

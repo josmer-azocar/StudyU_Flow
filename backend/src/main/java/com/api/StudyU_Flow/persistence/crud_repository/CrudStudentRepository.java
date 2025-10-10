@@ -9,6 +9,5 @@ import java.util.Optional;
 public interface CrudStudentRepository extends CrudRepository<StudentEntity, Long> {
 
     Optional<StudentEntity> findByUsername(String username);
-
     StudentEntity findFirstByUsername(String username);
 }

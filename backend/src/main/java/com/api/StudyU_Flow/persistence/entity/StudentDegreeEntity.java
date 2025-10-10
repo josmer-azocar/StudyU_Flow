@@ -28,12 +28,13 @@ public class StudentDegreeEntity extends AuditableEntity implements Serializable
     private Integer quantitySemesters;
 
     @ManyToOne(targetEntity = StudentEntity.class)
-    @JoinColumn(name = "id_student", referencedColumnName = "id_student", insertable = false, updatable = false)
+    @JoinColumn(name = "id_student", referencedColumnName = "id_student")
     private StudentEntity student;
 
     @ManyToOne(targetEntity = DegreeEntity.class)
-    @JoinColumn(name = "id_degree", referencedColumnName = "id_degree", insertable = false, updatable = false)
+    @JoinColumn(name = "id_degree", referencedColumnName = "id_degree")
     private DegreeEntity degree;
+
 
     public StudentDegreeEntity() {
     }
@@ -77,5 +78,21 @@ public class StudentDegreeEntity extends AuditableEntity implements Serializable
 
     public void setQuantitySemesters(Integer quantitySemesters) {
         this.quantitySemesters = quantitySemesters;
+    }
+
+    public StudentEntity getStudent() {
+        return student;
+    }
+
+    public void setStudent(StudentEntity student) {
+        this.student = student;
+    }
+
+    public DegreeEntity getDegree() {
+        return degree;
+    }
+
+    public void setDegree(DegreeEntity degree) {
+        this.degree = degree;
     }
 }

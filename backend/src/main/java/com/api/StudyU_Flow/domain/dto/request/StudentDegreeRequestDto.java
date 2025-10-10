@@ -13,9 +13,9 @@ public record StudentDegreeRequestDto(
         @Min(value = 1, message = "El ID de la carrera no es válido.")
         Long idDegree,
 
-        @NotNull(message = "El ID del Estudiante.")
-        @Min(value = 1, message = "El ID del Estudiante no es valido.")
-        Long idStudent,
+//        @NotNull(message = "El ID del Estudiante.")
+//        @Min(value = 1, message = "El ID del Estudiante no es valido.")
+//        Long idStudent,
 
         @NotNull(message = "La cantidad de semestres es obligatoria.")
         @Min(value = 1, message = "La carrera debe tener al menos 1 semestre.")
