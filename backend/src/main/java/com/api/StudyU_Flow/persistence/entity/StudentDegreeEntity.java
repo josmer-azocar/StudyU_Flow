@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Entity
@@ -35,6 +36,8 @@ public class StudentDegreeEntity extends AuditableEntity implements Serializable
     @JoinColumn(name = "id_degree", referencedColumnName = "id_degree")
     private DegreeEntity degree;
 
+    @OneToMany(mappedBy = "studentDegree", cascade = CascadeType.ALL)
+    private List<SubjectEntity> subjects;
 
     public StudentDegreeEntity() {
     }

@@ -6,7 +6,6 @@ public record SubjectResponseDto(
         String name,
         Integer credits,
         Integer semester,
-        Long idDegree
-
+        Long idStudentDegree
 ) {
 }

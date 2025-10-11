@@ -23,6 +23,6 @@ public record SubjectRequestDto(
 
         @NotNull(message = "El ID de la carrera a la que pertenece es obligatorio.")
         @Min(value = 1, message = "El ID de la carrera no es válido.")
-        Long idDegree
+        Long idStudentDegree
 ) {
 }

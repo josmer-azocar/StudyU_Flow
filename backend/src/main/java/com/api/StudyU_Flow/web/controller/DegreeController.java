@@ -2,6 +2,8 @@ package com.api.StudyU_Flow.web.controller;
 
 import com.api.StudyU_Flow.domain.dto.response.DegreeResponseDto;
 import com.api.StudyU_Flow.domain.service.DegreeService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +23,19 @@ public class DegreeController {
         this.degreeService = degreeService;
     }
 
+    /**
+     * @description
+     * ES: Endpoint para obtener todos los grados disponibles en el sistema.
+     * EN: Endpoint to get all Degrees available in the system.
+     */
     @GetMapping
+    @Operation(
+            summary = "Get all Degrees",
+            description = "return List<DegreeResponseDto>",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Degrees retrieved successfully")
+            }
+    )
     public ResponseEntity<List<DegreeResponseDto>> getAll(){
         return ResponseEntity.ok(this.degreeService.getAll());
     }

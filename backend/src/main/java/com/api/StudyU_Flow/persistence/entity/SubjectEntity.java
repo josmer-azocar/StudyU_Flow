@@ -28,9 +28,9 @@ public class SubjectEntity  extends AuditableEntity implements Serializable {
     @Column(name = "semester")
     private Integer semester;
 
-    @ManyToOne(targetEntity = DegreeEntity.class)
-    @JoinColumn(name = "id_degree", referencedColumnName = "id_degree")
-    private DegreeEntity degree;
+    @ManyToOne(targetEntity = StudentDegreeEntity.class)
+    @JoinColumn(name = "id_student_degree", referencedColumnName = "id_student_degree")
+    private StudentDegreeEntity studentDegree;
 
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
     private List<StudentSubjectRecordEntity> records;
@@ -38,11 +38,20 @@ public class SubjectEntity  extends AuditableEntity implements Serializable {
     public SubjectEntity() {
     }
 
-    public SubjectEntity(Long idSubject, String name, Integer credits, Integer semester) {
+    public SubjectEntity(Long idSubject, Integer credits, String name, Integer semester, StudentDegreeEntity studentDegree) {
         this.idSubject = idSubject;
-        this.name = name;
         this.credits = credits;
+        this.name = name;
         this.semester = semester;
+        this.studentDegree = studentDegree;
+    }
+
+    public StudentDegreeEntity getStudentDegree() {
+        return studentDegree;
+    }
+
+    public void setStudentDegree(StudentDegreeEntity studentDegree) {
+        this.studentDegree = studentDegree;
     }
 
     public Long getIdSubject() {

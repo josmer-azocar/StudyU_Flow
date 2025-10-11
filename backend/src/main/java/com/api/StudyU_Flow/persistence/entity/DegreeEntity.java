@@ -25,9 +25,6 @@ public class DegreeEntity extends AuditableEntity implements Serializable {
     @OneToMany(mappedBy = "degree", cascade = CascadeType.ALL)
     private List<StudentDegreeEntity> studentDegrees;
 
-    @OneToMany(mappedBy = "degree", cascade = CascadeType.ALL)
-    private List<SubjectEntity> subjects;
-
     public DegreeEntity() {
     }
 
