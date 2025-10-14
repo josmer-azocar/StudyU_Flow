@@ -2,6 +2,7 @@ package com.api.StudyU_Flow.persistence.impl_repository;
 
 import com.api.StudyU_Flow.domain.dto.response.StudentResponseDto;
 import com.api.StudyU_Flow.domain.dto.update.UpdateStudentDto;
+import com.api.StudyU_Flow.domain.exception.StudentDoesNotExistsException;
 import com.api.StudyU_Flow.persistence.crud_repository.CrudStudentRepository;
 import com.api.StudyU_Flow.persistence.entity.StudentEntity;
 import com.api.StudyU_Flow.persistence.mapper.StudentMapper;
@@ -19,14 +20,17 @@ public class StudentEntityRepository {
     }
 
     public StudentResponseDto getByUsername(String username) {
+        if (this.crudStudentRepository.findFirstByUsername(username) == null) {
+            throw new StudentDoesNotExistsException(username);
+        }
         return this.studentMapper.toResponseDto(this.crudStudentRepository.findByUsername(username).orElse(null));
     }
 
     public StudentResponseDto update(String username, UpdateStudentDto updateStudentDto) {
+        if (this.crudStudentRepository.findFirstByUsername(username) == null) {
+            throw new StudentDoesNotExistsException(username);
+        }
         StudentEntity studentEntity = this.crudStudentRepository.findByUsername(username).orElse(null);
-
-        if (studentEntity == null) return null;
-
         this.studentMapper.updateEntityFromDto(updateStudentDto, studentEntity);
 
         return this.studentMapper.toResponseDto(this.crudStudentRepository.save(studentEntity));

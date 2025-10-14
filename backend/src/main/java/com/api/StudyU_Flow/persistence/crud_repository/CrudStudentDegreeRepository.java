@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface CrudStudentDegreeRepository extends CrudRepository<StudentDegreeEntity, Long> {
 
+    StudentDegreeEntity findByIdStudentDegree(Long id);
     List<StudentDegreeEntity> findAllByStudent_Username(String username);
 }

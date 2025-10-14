@@ -2,6 +2,7 @@ package com.api.StudyU_Flow.persistence.impl_repository;
 
 import com.api.StudyU_Flow.domain.dto.request.StudentDegreeRequestDto;
 import com.api.StudyU_Flow.domain.dto.response.StudentDegreeResponseDto;
+import com.api.StudyU_Flow.domain.exception.StudentDoesNotExistsException;
 import com.api.StudyU_Flow.persistence.crud_repository.CrudStudentDegreeRepository;
 import com.api.StudyU_Flow.persistence.crud_repository.CrudStudentRepository;
 import com.api.StudyU_Flow.persistence.entity.StudentDegreeEntity;
@@ -24,6 +25,10 @@ public class StudentDegreeEntityRepository {
     }
 
     public StudentDegreeResponseDto add(String username, StudentDegreeRequestDto studentDegreeRequestDto) {
+        if (this.crudStudentRepository.findFirstByUsername(username) == null) {
+            throw new StudentDoesNotExistsException(username);
+        }
+
         StudentDegreeEntity studentDegreeEntity = this.studentDegreeMapper.toEntity(studentDegreeRequestDto);
         StudentEntity studentEntity = this.crudStudentRepository.findFirstByUsername(username);
 
@@ -34,6 +39,9 @@ public class StudentDegreeEntityRepository {
     }
 
     public List<StudentDegreeResponseDto> getAllByUsername(String username) {
+        if (this.crudStudentRepository.findFirstByUsername(username) == null) {
+            throw new StudentDoesNotExistsException(username);
+        }
         return this.studentDegreeMapper.toResponseDto(this.crudStudentDegreeRepository.findAllByStudent_Username(username));
     }
 }

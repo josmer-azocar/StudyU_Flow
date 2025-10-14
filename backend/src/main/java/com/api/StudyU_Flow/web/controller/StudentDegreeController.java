@@ -53,11 +53,18 @@ public class StudentDegreeController {
             summary = "Get all Degrees by Student username",
             description = "return List<StudentDegreeResponseDto>",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Student Degrees retrieved successfully")
+                    @ApiResponse(responseCode = "200", description = "Student Degrees retrieved successfully"),
+                    @ApiResponse(responseCode = "204", description = "No Student Degrees found")
             }
     )
     public ResponseEntity<List<StudentDegreeResponseDto>> getAllByUsername(
             @Parameter(description = "Student username") @PathVariable String username){
-        return ResponseEntity.ok(this.studentDegreeService.getAllByUsername(username));
+
+        List<StudentDegreeResponseDto> studentDegreeResponseDtos = this.studentDegreeService.getAllByUsername(username);
+
+        if(studentDegreeResponseDtos.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(studentDegreeResponseDtos);
     }
 }

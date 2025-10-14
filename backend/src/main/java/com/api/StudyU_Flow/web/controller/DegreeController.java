@@ -33,11 +33,16 @@ public class DegreeController {
             summary = "Get all Degrees",
             description = "return List<DegreeResponseDto>",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Degrees retrieved successfully")
+                    @ApiResponse(responseCode = "200", description = "Degrees retrieved successfully"),
+                    @ApiResponse(responseCode = "204", description = "No degrees found")
             }
     )
     public ResponseEntity<List<DegreeResponseDto>> getAll(){
-        return ResponseEntity.ok(this.degreeService.getAll());
+        List<DegreeResponseDto> degreeResponseDtos = this.degreeService.getAll();
+        if(degreeResponseDtos.isEmpty()){
+            ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(degreeResponseDtos);
     }
 
 
