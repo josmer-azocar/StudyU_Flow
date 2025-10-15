@@ -1,6 +1,9 @@
 package com.api.StudyU_Flow.web.controller;
 
+import com.api.StudyU_Flow.domain.dto.request.StudentSubjectRecordRequestDto;
+import com.api.StudyU_Flow.domain.dto.request.SubjectAndRecordRequestDto;
 import com.api.StudyU_Flow.domain.dto.request.SubjectRequestDto;
+import com.api.StudyU_Flow.domain.dto.response.SubjectAndRecordResponseDto;
 import com.api.StudyU_Flow.domain.dto.response.SubjectResponseDto;
 import com.api.StudyU_Flow.domain.service.SubjectService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,6 +46,25 @@ public class SubjectController {
             @RequestBody @Valid SubjectRequestDto requestDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.subjectService.add(requestDto));
 }
+
+    /**
+     * @description
+     * ES: Endpoint para crear una nueva Asignatura y su Record con la informacion detallada.
+     * EN: Endpoint to create a new Subject and his Record with detail information.
+     */
+    @PostMapping("/add")
+    @Operation(
+            summary = "Create a new Subject and Record",
+            description = "return SubjectAndRecordResponseDto",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Subject created successfully")
+            }
+    )
+    ResponseEntity<SubjectAndRecordResponseDto> addSubjectAndRecord(
+            @Parameter(description = "Combined data for subject and record")
+            @RequestBody @Valid SubjectAndRecordRequestDto requestDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.subjectService.add(requestDto));
+    }
 
     /**
      * @description

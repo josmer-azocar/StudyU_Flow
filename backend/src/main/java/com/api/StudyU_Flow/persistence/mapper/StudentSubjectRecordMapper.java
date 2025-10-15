@@ -13,10 +13,14 @@ import java.util.List;
 public interface StudentSubjectRecordMapper {
 
     @Mapping(source ="status", target = "status", qualifiedByName = "stringToStatus")
+    @Mapping(source = "student.idStudent", target = "idStudent")
+    @Mapping(source = "subject.idSubject", target = "idSubject")
     StudentSubjectRecordResponseDto toResponseDto(StudentSubjectRecordEntity entity);
     List<StudentSubjectRecordResponseDto> toResponseDto(Iterable<StudentSubjectRecordEntity> entities);
 
     @InheritInverseConfiguration
     @Mapping(source ="status", target = "status", qualifiedByName = "statusToString")
+//    @Mapping(target = "student.idStudent", source = "idStudent")
+//    @Mapping(target = "subject.idSubject", source = "idSubject")
     StudentSubjectRecordEntity toEntity(StudentSubjectRecordRequestDto requestDto);
 }

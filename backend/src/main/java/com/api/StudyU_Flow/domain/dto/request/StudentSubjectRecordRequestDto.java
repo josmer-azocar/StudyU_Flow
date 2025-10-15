@@ -15,14 +15,6 @@ public record StudentSubjectRecordRequestDto(
         Double finalGrade,
 
         @NotNull(message = "Status cannot be empty.")
-        Status status,
-
-        @NotNull(message = "Student ID is required.")
-        @Min(value = 1, message = "Student ID is not valid.")
-        Long idStudent,
-
-        @NotNull(message = "Subject ID is required.")
-        @Min(value = 1, message = "Subject ID is not valid.")
-        Long idSubject
+        Status status
 ) {
 }

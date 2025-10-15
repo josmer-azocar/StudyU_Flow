@@ -29,11 +29,11 @@ public class StudentSubjectRecordEntity extends AuditableEntity implements Seria
     private Integer attempts;
 
     @ManyToOne(targetEntity = StudentEntity.class)
-    @JoinColumn(name = "id_student", referencedColumnName = "id_student", insertable = false, updatable = false)
+    @JoinColumn(name = "id_student", referencedColumnName = "id_student")
     private StudentEntity student;
 
     @ManyToOne(targetEntity = SubjectEntity.class)
-    @JoinColumn(name = "id_subject", referencedColumnName = "id_subject", insertable = false, updatable = false)
+    @JoinColumn(name = "id_subject", referencedColumnName = "id_subject")
     private SubjectEntity subject;
 
     @OneToMany(mappedBy = "record", cascade = CascadeType.ALL)
@@ -42,11 +42,13 @@ public class StudentSubjectRecordEntity extends AuditableEntity implements Seria
     public StudentSubjectRecordEntity() {
     }
 
-    public StudentSubjectRecordEntity(Long idRecord, String status, double finalGrade, Integer attempts) {
+    public StudentSubjectRecordEntity(Long idRecord, String status, double finalGrade, Integer attempts, StudentEntity student, SubjectEntity subject) {
         this.idRecord = idRecord;
         this.status = status;
         this.finalGrade = finalGrade;
         this.attempts = attempts;
+        this.student = student;
+        this.subject = subject;
     }
 
     public Long getIdRecord() {
@@ -80,5 +82,21 @@ public class StudentSubjectRecordEntity extends AuditableEntity implements Seria
 
     public void setAttempts(Integer attempts) {
         this.attempts = attempts;
+    }
+
+    public StudentEntity getStudent() {
+        return student;
+    }
+
+    public void setStudent(StudentEntity student) {
+        this.student = student;
+    }
+
+    public SubjectEntity getSubject() {
+        return subject;
+    }
+
+    public void setSubject(SubjectEntity subject) {
+        this.subject = subject;
     }
 }
