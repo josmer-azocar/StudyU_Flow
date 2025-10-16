@@ -21,10 +21,6 @@ public record EvaluationRequestDto(
         @NotNull(message = "Percentage weight is required.")
         @DecimalMin(value = "0.0", message = "Percentage cannot be negative.")
         @DecimalMax(value = "100.0", message = "Percentage cannot exceed 100.")
-        Double percentage,
-
-        @NotNull(message = "Record ID is required.")
-        @Min(value = 1, message = "Record ID is not valid.")
-        Long idRecord
+        Double percentage
 ) {
 }

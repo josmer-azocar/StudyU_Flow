@@ -3,6 +3,7 @@ package com.api.StudyU_Flow.web.controller;
 import com.api.StudyU_Flow.domain.dto.request.StudentSubjectRecordRequestDto;
 import com.api.StudyU_Flow.domain.dto.request.SubjectAndRecordRequestDto;
 import com.api.StudyU_Flow.domain.dto.request.SubjectRequestDto;
+import com.api.StudyU_Flow.domain.dto.response.StudentSubjectRecordResponseDto;
 import com.api.StudyU_Flow.domain.dto.response.SubjectAndRecordResponseDto;
 import com.api.StudyU_Flow.domain.dto.response.SubjectResponseDto;
 import com.api.StudyU_Flow.domain.service.SubjectService;
@@ -46,6 +47,48 @@ public class SubjectController {
             @RequestBody @Valid SubjectRequestDto requestDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.subjectService.add(requestDto));
 }
+    /**
+     * @description
+     * ES: Endpoint para crear un record y asignarlo a una asignatura.
+     * EN: Endpoint to create a new record and assign it to a subject.
+     */
+    @PostMapping("/record/add/{username}/{idSubject}")
+    @Operation(
+            summary = "Create a new record",
+            description = "return StudentSubjectRecordResponseDto",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Record created successfully")
+            }
+    )
+    ResponseEntity<StudentSubjectRecordResponseDto> addRecordToSubject(
+            @Parameter(description = "Student username") @PathVariable String username,
+            @Parameter(description = "Subject id") @PathVariable Long idSubject,
+            @Parameter(description = "Data for Subject Record") @RequestBody @Valid StudentSubjectRecordRequestDto requestDto
+    ){
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(this.subjectService.addRecordToSubject(username, idSubject, requestDto));
+    }
+
+    /**
+     * @description
+     * ES: Endpoint para actualizar los datos del record de una materia.
+     * EN: Endpoint to update the data of a subject record.
+     */
+    @PutMapping("/record/update/{idRecord}")
+    @Operation(
+            summary = "Update a record",
+            description = "return StudentSubjectRecordResponseDto",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Record updated successfully")
+            }
+    )
+    ResponseEntity<StudentSubjectRecordResponseDto> updateRecord(
+            @Parameter(description = "Record id") @PathVariable Long idRecord,
+            @Parameter(description = "Data for Subject Record") @RequestBody @Valid StudentSubjectRecordRequestDto requestDto
+    ){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.subjectService.updateRecord(idRecord, requestDto));
+    }
 
     /**
      * @description
@@ -93,6 +136,70 @@ public class SubjectController {
         }
 
         return ResponseEntity.ok(subjectResponseDtos);
+    }
+
+
+    /**
+     * @description
+     * ES: Endpoint para obtener todas las Asignaturas y sus Records de un estudiante por su nombre de usuario y el id de la carrera que cursa.
+     * EN: Endpoint to get all Subjects and their Records for a student by username and Student degree id.
+     */
+    @GetMapping("/getAll/{username}/{idStudentDegree}")
+    @Operation(
+            summary = "Get all Subjects and Records by student",
+            description = "Returns a list of SubjectAndRecordResponseDto for a given student and degree id",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Subjects and records found"),
+                    @ApiResponse(responseCode = "204", description = "No subjects or records found")
+            }
+    )
+    ResponseEntity<List<SubjectAndRecordResponseDto>> getAllSubjectsAndRecordsByStudent(
+            @Parameter(description = "Student username")
+            @PathVariable String username,
+            @Parameter(description = "StudentDegree id")
+            @PathVariable Long idStudentDegree){
+
+        List<SubjectAndRecordResponseDto> subjectAndRecordResponseDtos = this.subjectService
+                .getAllSubjectsAndRecordsByStudent(username, idStudentDegree);
+
+        if(subjectAndRecordResponseDtos.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(subjectAndRecordResponseDtos);
+    }
+
+    /**
+     * @description
+     * ES: Endpoint para obtener todas las Asignaturas de un semestre especifico
+     * y sus Records de un estudiante por su nombre de usuario y el id de la carrera que cursa.
+     * EN: Endpoint to get all Subjects of a specific semester and their Records for a student by username and Student degree id.
+     */
+    @GetMapping("/getAll/{username}/{idStudentDegree}/{nSemester}")
+    @Operation(
+            summary = "Get all Subjects and Records by student and a specific semester",
+            description = "Returns a list of SubjectAndRecordResponseDto for a given student and degree id",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Subjects and records found"),
+                    @ApiResponse(responseCode = "204", description = "No subjects or records found")
+            }
+    )
+    ResponseEntity<List<SubjectAndRecordResponseDto>> getAllSubjectsAndRecordsBySemester(
+            @Parameter(description = "Student username")
+            @PathVariable String username,
+            @Parameter(description = "StudentDegree id")
+            @PathVariable Long idStudentDegree,
+            @Parameter(description = "int nSemestre")
+            @PathVariable Integer nSemester){
+
+        List<SubjectAndRecordResponseDto> subjectAndRecordResponseDtos = this.subjectService
+                .getAllSubjectsAndRecordsBySemester(username, idStudentDegree, nSemester);
+
+        if(subjectAndRecordResponseDtos.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(subjectAndRecordResponseDtos);
     }
 
 }

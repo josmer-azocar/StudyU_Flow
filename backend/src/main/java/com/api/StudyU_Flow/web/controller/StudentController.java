@@ -22,7 +22,6 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-
     /**
      * @description
      * ES: Endpoint para obtener los datos de un Estudiante por su username.
@@ -64,5 +63,24 @@ public class StudentController {
             @Parameter(description = "Student username") @PathVariable String username,
             @Parameter(description = "Student data to update") @RequestBody @Valid UpdateStudentDto updateStudentDto){
         return ResponseEntity.ok(this.studentService.update(username, updateStudentDto));
+    }
+
+    /**
+     * @description
+     * ES: Endpoint para obtener los datos de un Estudiante por su username.
+     * EN: Endpoint to get a Student by username.
+     */
+    @DeleteMapping("/delete/{idStudent}")
+    @Operation(
+            summary = "Delete Student by Student id",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Student retrieved successfully"),
+                    @ApiResponse(responseCode = "404", description = "Student not found")
+            }
+    )
+    public ResponseEntity<Void> DeleteByIdStudent(
+            @Parameter(description = "Student id") @PathVariable Long idStudent){
+        this.studentService.deleteByIdStudent(idStudent);
+        return ResponseEntity.ok().build();
     }
 }

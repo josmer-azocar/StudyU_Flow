@@ -6,6 +6,7 @@ import com.api.StudyU_Flow.persistence.entity.StudentSubjectRecordEntity;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface StudentSubjectRecordMapper {
 
     @InheritInverseConfiguration
     @Mapping(source ="status", target = "status", qualifiedByName = "statusToString")
-//    @Mapping(target = "student.idStudent", source = "idStudent")
-//    @Mapping(target = "subject.idSubject", source = "idSubject")
     StudentSubjectRecordEntity toEntity(StudentSubjectRecordRequestDto requestDto);
+
+    void updateEntityFromDto(StudentSubjectRecordRequestDto updateDto, @MappingTarget StudentSubjectRecordEntity recordEntity);
 }

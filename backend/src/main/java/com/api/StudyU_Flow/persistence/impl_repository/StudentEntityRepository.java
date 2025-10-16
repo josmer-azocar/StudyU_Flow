@@ -35,4 +35,11 @@ public class StudentEntityRepository {
 
         return this.studentMapper.toResponseDto(this.crudStudentRepository.save(studentEntity));
     }
+
+    public Void deleteByIdStudent(Long idStudent) {
+        if (this.crudStudentRepository.findByIdStudent(idStudent) == null) {
+            throw new StudentDoesNotExistsException(idStudent);
+        }
+        return this.crudStudentRepository.deleteByIdStudent(idStudent);
+    }
 }

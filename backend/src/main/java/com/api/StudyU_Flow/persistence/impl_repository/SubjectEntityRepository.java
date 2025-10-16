@@ -6,9 +6,7 @@ import com.api.StudyU_Flow.domain.dto.request.SubjectRequestDto;
 import com.api.StudyU_Flow.domain.dto.response.StudentSubjectRecordResponseDto;
 import com.api.StudyU_Flow.domain.dto.response.SubjectAndRecordResponseDto;
 import com.api.StudyU_Flow.domain.dto.response.SubjectResponseDto;
-import com.api.StudyU_Flow.domain.exception.DegreeDoesNotExistsException;
-import com.api.StudyU_Flow.domain.exception.StudentAlreadyExistsException;
-import com.api.StudyU_Flow.domain.exception.StudentDoesNotExistsException;
+import com.api.StudyU_Flow.domain.exception.*;
 import com.api.StudyU_Flow.persistence.crud_repository.CrudStudentDegreeRepository;
 import com.api.StudyU_Flow.persistence.crud_repository.CrudStudentRepository;
 import com.api.StudyU_Flow.persistence.crud_repository.CrudStudentSubjectRecordRepository;
@@ -19,6 +17,7 @@ import com.api.StudyU_Flow.persistence.entity.StudentSubjectRecordEntity;
 import com.api.StudyU_Flow.persistence.entity.SubjectEntity;
 import com.api.StudyU_Flow.persistence.mapper.StudentSubjectRecordMapper;
 import com.api.StudyU_Flow.persistence.mapper.SubjectMapper;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -42,7 +41,6 @@ public class SubjectEntityRepository {
         this.crudStudentDegreeRepository = crudStudentDegreeRepository;
         this.crudStudentSubjectRecordRepository = crudStudentSubjectRecordRepository;
     }
-
 
     public SubjectResponseDto add(SubjectRequestDto requestDto) {
         SubjectEntity subjectEntity = this.subjectMapper.toEntity(requestDto);
@@ -73,7 +71,7 @@ public class SubjectEntityRepository {
             throw new StudentDoesNotExistsException(username);
 
         } else
-            if(this.crudStudentDegreeRepository.findByIdStudentDegree(idDegree) == null){
+            if (this.crudStudentDegreeRepository.findByIdStudentDegree(idDegree) == null){
                 throw new DegreeDoesNotExistsException(idDegree);
         }
 
@@ -81,5 +79,114 @@ public class SubjectEntityRepository {
                 this.crudSubjectRepository
                         .findSubjectEntitiesByStudentDegree_StudentUsernameAndStudentDegreeIdStudentDegree(
                                 username,idDegree));
+    }
+
+    public List<SubjectAndRecordResponseDto> getAllSubjectsAndRecordsByStudent(String username, Long idStudentDegree) {
+        if (this.crudStudentRepository.findFirstByUsername(username) == null) {
+            throw new StudentDoesNotExistsException(username);
+        } else
+            if (this.crudStudentDegreeRepository.findByIdStudentDegreeAndStudent_Username(idStudentDegree, username) == null){
+            throw new DegreeDoesNotExistsException(idStudentDegree);
+        }
+
+        List<SubjectEntity> subjectEntities = this.crudSubjectRepository.findAllByStudentDegree_IdStudentDegree(idStudentDegree);
+        List<StudentSubjectRecordEntity> subjectRecords = new ArrayList<>();
+        List<SubjectAndRecordResponseDto> responseList = new ArrayList<>();
+
+        for (SubjectEntity subject : subjectEntities){
+         subjectRecords.add(this.crudStudentSubjectRecordRepository.findBySubject_IdSubject(subject.getIdSubject()));
+        }
+
+        for (StudentSubjectRecordEntity subjectRecord : subjectRecords){
+            for (SubjectEntity subject : subjectEntities){
+                if ((subjectRecord != null) && (subject != null)){
+                if (subjectRecord.getSubject().getIdSubject().equals(subject.getIdSubject())) {
+                    responseList.add(
+                            new SubjectAndRecordResponseDto(
+                                    this.subjectMapper.toResponseDto(subject),
+                                    this.recordMapper.toResponseDto(subjectRecord)
+                            )
+                    );
+                }
+                }
+            }
+        }
+
+        return responseList;
+    }
+
+    public StudentSubjectRecordResponseDto addRecordToSubject(String username, Long idSubject, StudentSubjectRecordRequestDto requestDto) {
+        if (this.crudStudentRepository.findFirstByUsername(username) == null) {
+            throw new StudentDoesNotExistsException(username);
+
+        } else
+        if (this.crudSubjectRepository.findByIdSubject(idSubject) == null){
+            throw new SubjectDoesNotExistsException(idSubject);
+        }
+
+        StudentSubjectRecordEntity recordEntity = this.recordMapper.toEntity(requestDto);
+        StudentEntity student = this.crudStudentRepository.findFirstByUsername(username);
+        SubjectEntity subject = this.crudSubjectRepository.findByIdSubject(idSubject);
+
+        if (!(subject.getStudentDegree().getStudent().getUsername().equals(username))){
+            throw new SubjectDoesNotExistsException(idSubject);
+        }
+
+        recordEntity.setStudent(student);
+        recordEntity.setSubject(subject);
+
+        return this.recordMapper.toResponseDto(this.crudStudentSubjectRecordRepository.save(recordEntity));
+    }
+
+    public List<SubjectAndRecordResponseDto> getAllSubjectsAndRecordsBySemester(String username, Long idStudentDegree, Integer nSemester) {
+        if (this.crudStudentRepository.findFirstByUsername(username) == null) {
+            throw new StudentDoesNotExistsException(username);
+        } else
+        if (this.crudStudentDegreeRepository.findByIdStudentDegreeAndStudent_Username(idStudentDegree, username) == null){
+            throw new DegreeDoesNotExistsException(idStudentDegree);
+        }
+
+        List<SubjectEntity> subjectEntities = this.crudSubjectRepository
+                .findAllByStudentDegree_IdStudentDegreeAndSemester(idStudentDegree, nSemester);
+
+        if(subjectEntities.isEmpty()){
+            throw new SubjectsBySemesterDontExistExc(idStudentDegree, nSemester);
+        }
+
+        List<StudentSubjectRecordEntity> subjectRecords = new ArrayList<>();
+        List<SubjectAndRecordResponseDto> responseList = new ArrayList<>();
+
+        for (SubjectEntity subject : subjectEntities){
+            subjectRecords.add(this.crudStudentSubjectRecordRepository.findBySubject_IdSubject(subject.getIdSubject()));
+        }
+
+        for (StudentSubjectRecordEntity subjectRecord : subjectRecords){
+            for (SubjectEntity subject : subjectEntities){
+                if ((subjectRecord != null) && (subject != null)){
+                    if (subjectRecord.getSubject().getIdSubject().equals(subject.getIdSubject())) {
+                        responseList.add(
+                                new SubjectAndRecordResponseDto(
+                                        this.subjectMapper.toResponseDto(subject),
+                                        this.recordMapper.toResponseDto(subjectRecord)
+                                )
+                        );
+                    }
+                }
+            }
+        }
+
+        return responseList;
+    }
+
+    public StudentSubjectRecordResponseDto updateRecord(Long idRecord, StudentSubjectRecordRequestDto requestDto) {
+        if (this.crudStudentSubjectRecordRepository.findFirstByIdRecord(idRecord) == null){
+            throw new SubjectRecordDoesNotExistsException(idRecord);
+        }
+
+        StudentSubjectRecordEntity recordEntity = this.crudStudentSubjectRecordRepository.findFirstByIdRecord(idRecord);
+
+        this.recordMapper.updateEntityFromDto(requestDto, recordEntity);
+
+        return this.recordMapper.toResponseDto(this.crudStudentSubjectRecordRepository.save(recordEntity));
     }
 }

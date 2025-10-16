@@ -21,4 +21,8 @@ public class StudentService {
     public StudentResponseDto update(String username, UpdateStudentDto updateStudentDto){
         return this.studentEntityRepository.update(username, updateStudentDto);
     }
+
+    public Void deleteByIdStudent(Long idStudent) {
+        return this.studentEntityRepository.deleteByIdStudent(idStudent);
+    }
 }

@@ -32,18 +32,19 @@ public class EvaluationEntity extends AuditableEntity implements Serializable {
     private double percentage;
 
     @ManyToOne(targetEntity = StudentSubjectRecordEntity.class)
-    @JoinColumn(name = "id_record", referencedColumnName = "id_record", insertable = false, updatable = false)
+    @JoinColumn(name = "id_record", referencedColumnName = "id_record")
     private StudentSubjectRecordEntity record;
 
     public EvaluationEntity() {
     }
 
-    public EvaluationEntity(Long idEvaluation, double grade, String evaluationName, double maxGrade, double percentage) {
+    public EvaluationEntity(Long idEvaluation, String evaluationName, double grade, double maxGrade, double percentage, StudentSubjectRecordEntity record) {
         this.idEvaluation = idEvaluation;
-        this.grade = grade;
         this.evaluationName = evaluationName;
+        this.grade = grade;
         this.maxGrade = maxGrade;
         this.percentage = percentage;
+        this.record = record;
     }
 
     public Long getIdEvaluation() {
@@ -85,5 +86,13 @@ public class EvaluationEntity extends AuditableEntity implements Serializable {
 
     public void setPercentage(double percentage) {
         this.percentage = percentage;
+    }
+
+    public StudentSubjectRecordEntity getRecord() {
+        return record;
+    }
+
+    public void setRecord(StudentSubjectRecordEntity record) {
+        this.record = record;
     }
 }

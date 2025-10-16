@@ -6,4 +6,9 @@ import java.util.List;
 
 public interface CrudSubjectRepository extends CrudRepository<SubjectEntity, Long> {
     List<SubjectEntity> findSubjectEntitiesByStudentDegree_StudentUsernameAndStudentDegreeIdStudentDegree(String username, Long idDegree);
+
+    List<SubjectEntity> findAllByStudentDegree_IdStudentDegree(Long idStudentDegree);
+    List<SubjectEntity> findAllByStudentDegree_IdStudentDegreeAndSemester(Long idStudentDegree, int nSemester);
+
+    SubjectEntity findByIdSubject(Long idSubject);
 }
