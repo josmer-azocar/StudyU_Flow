@@ -2,6 +2,7 @@ package com.api.StudyU_Flow.persistence.impl_repository;
 
 import com.api.StudyU_Flow.domain.dto.request.StudentDegreeRequestDto;
 import com.api.StudyU_Flow.domain.dto.response.StudentDegreeResponseDto;
+import com.api.StudyU_Flow.domain.exception.DegreeDoesNotExistsException;
 import com.api.StudyU_Flow.domain.exception.StudentDoesNotExistsException;
 import com.api.StudyU_Flow.persistence.crud_repository.CrudStudentDegreeRepository;
 import com.api.StudyU_Flow.persistence.crud_repository.CrudStudentRepository;
@@ -32,7 +33,7 @@ public class StudentDegreeEntityRepository {
         StudentDegreeEntity studentDegreeEntity = this.studentDegreeMapper.toEntity(studentDegreeRequestDto);
         StudentEntity studentEntity = this.crudStudentRepository.findFirstByUsername(username);
 
-//        //adding id student
+        //adding id student
         studentDegreeEntity.setStudent(studentEntity);
         return this.studentDegreeMapper.toResponseDto(crudStudentDegreeRepository.save(studentDegreeEntity));
 
@@ -43,5 +44,23 @@ public class StudentDegreeEntityRepository {
             throw new StudentDoesNotExistsException(username);
         }
         return this.studentDegreeMapper.toResponseDto(this.crudStudentDegreeRepository.findAllByStudent_Username(username));
+    }
+
+    public Void deleteByIdStudentDegree(long idStudentDegree) {
+        if (this.crudStudentDegreeRepository.findByIdStudentDegree(idStudentDegree) == null){
+            throw new DegreeDoesNotExistsException(idStudentDegree);
+        }
+
+        return this.crudStudentDegreeRepository.deleteByIdStudentDegree(idStudentDegree);
+    }
+
+    public StudentDegreeResponseDto getByIdStudentDegree(Long idStudentDegree) {
+        if(this.crudStudentDegreeRepository.findByIdStudentDegree(idStudentDegree) == null){
+            throw new DegreeDoesNotExistsException(idStudentDegree);
+        }
+       StudentDegreeEntity studentDegree = this.crudStudentDegreeRepository.findByIdStudentDegree(idStudentDegree);
+
+        return this.studentDegreeMapper.toResponseDto(studentDegree);
+
     }
 }

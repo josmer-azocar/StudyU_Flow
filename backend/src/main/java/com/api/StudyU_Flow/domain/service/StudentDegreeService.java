@@ -3,6 +3,7 @@ package com.api.StudyU_Flow.domain.service;
 import com.api.StudyU_Flow.domain.dto.request.StudentDegreeRequestDto;
 import com.api.StudyU_Flow.domain.dto.response.StudentDegreeResponseDto;
 import com.api.StudyU_Flow.persistence.impl_repository.StudentDegreeEntityRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,5 +22,13 @@ public class StudentDegreeService {
 
     public List<StudentDegreeResponseDto> getAllByUsername(String username) {
         return this.studentDegreeEntityRepository.getAllByUsername(username);
+    }
+
+    public Void deleteByIdStudentDegree(long idStudentDegree) {
+        return this.studentDegreeEntityRepository.deleteByIdStudentDegree(idStudentDegree);
+    }
+
+    public StudentDegreeResponseDto getByIdStudentDegree(Long idStudentDegree) {
+        return this.studentDegreeEntityRepository.getByIdStudentDegree(idStudentDegree);
     }
 }

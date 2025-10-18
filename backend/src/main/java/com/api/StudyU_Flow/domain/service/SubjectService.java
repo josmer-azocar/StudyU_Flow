@@ -8,6 +8,7 @@ import com.api.StudyU_Flow.domain.dto.response.SubjectAndRecordResponseDto;
 import com.api.StudyU_Flow.domain.dto.response.SubjectResponseDto;
 import com.api.StudyU_Flow.persistence.impl_repository.SubjectEntityRepository;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,5 +48,13 @@ public class SubjectService {
 
     public StudentSubjectRecordResponseDto updateRecord(Long idRecord, StudentSubjectRecordRequestDto requestDto) {
         return this.subjectEntityRepository.updateRecord(idRecord, requestDto);
+    }
+
+    public ResponseEntity<Void> deleteSubjectAndRecordByIdSubject(Long idSubject) {
+        return this.subjectEntityRepository.deleteSubjectAndRecordByIdSubject(idSubject);
+    }
+
+    public SubjectAndRecordResponseDto getSubjectAndRecordByIdSubject(Long idSubject) {
+        return this.subjectEntityRepository.getSubjectAndRecordByIdSubject(idSubject);
     }
 }

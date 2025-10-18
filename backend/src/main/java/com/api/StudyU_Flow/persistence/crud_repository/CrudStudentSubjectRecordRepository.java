@@ -8,4 +8,6 @@ public interface CrudStudentSubjectRecordRepository extends CrudRepository<Stude
     StudentSubjectRecordEntity findBySubject_IdSubject(Long idSubject);
 
     StudentSubjectRecordEntity findFirstByIdRecord(Long idRecord);
+
+    Void deleteBySubject_IdSubject(Long subjectIdSubject);
 }

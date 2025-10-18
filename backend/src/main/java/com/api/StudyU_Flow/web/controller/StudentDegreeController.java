@@ -26,7 +26,7 @@ public class StudentDegreeController {
 
     /**
      * @description
-     * ES: Endpoint para registrar un grado académico a un Estudiante por su username.
+     * ES: Endpoint para registrar una carrera a un Estudiante por su username.
      * EN: Endpoint to add an academic degree to a Student by username.
      */
     @PostMapping("/{username}")
@@ -45,7 +45,7 @@ public class StudentDegreeController {
 
     /**
      * @description
-     * ES: Endpoint para obtener todos los grados académicos de un Estudiante por su username.
+     * ES: Endpoint para obtener todas las carreras de un Estudiante por su username.
      * EN: Endpoint to get all academic degrees of a Student by username.
      */
     @GetMapping("/{username}")
@@ -66,5 +66,42 @@ public class StudentDegreeController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(studentDegreeResponseDtos);
+    }
+
+    /**
+     * @description
+     * ES: Endpoint para obtener una carrera del estudiante por su id.
+     * EN: Endpoint to get a Student Degree by its id.
+     */
+    @GetMapping("/{idStudentDegree}")
+    @Operation(
+            summary = "Get Student Degree by id",
+            description = "Returns a StudentDegreeResponseDto for the given student degree id",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Student Degree found")
+            }
+    )
+    ResponseEntity<StudentDegreeResponseDto> getByIdStudentDegree(
+            @Parameter(description = "Student Degree id") @PathVariable Long idStudentDegree){
+        return ResponseEntity.ok(this.studentDegreeService.getByIdStudentDegree(idStudentDegree));
+    }
+
+    /**
+     * @description
+     * ES: Endpoint para eliminar una carrera del estudiante por su id.
+     * EN: Endpoint to delete a Student Degree by its id.
+     */
+    @DeleteMapping("/{idStudentDegree}")
+    @Operation(
+            summary = "Delete Student Degree by id",
+            description = "Deletes the Student Degree for the given id",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Student Degree deleted successfully")
+            }
+    )
+    ResponseEntity<Void> deleteByIdStudentDegree(
+            @Parameter(description = "Student Degree id") @PathVariable long idStudentDegree){
+        this.studentDegreeService.deleteByIdStudentDegree(idStudentDegree);
+        return ResponseEntity.ok().build();
     }
 }

@@ -74,8 +74,7 @@ public class StudentController {
     @Operation(
             summary = "Delete Student by Student id",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Student retrieved successfully"),
-                    @ApiResponse(responseCode = "404", description = "Student not found")
+                    @ApiResponse(responseCode = "200", description = "Student retrieved successfully")
             }
     )
     public ResponseEntity<Void> DeleteByIdStudent(

@@ -18,4 +18,8 @@ public class DegreeService {
     public List<DegreeResponseDto> getAll(){
         return this.degreeEntityRepository.getAll();
     }
+
+    public DegreeResponseDto getByIdDegree(Long idDegree) {
+        return this.degreeEntityRepository.getByIdDegree(idDegree);
+    }
 }

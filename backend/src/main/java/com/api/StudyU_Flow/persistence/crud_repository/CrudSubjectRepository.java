@@ -1,6 +1,7 @@
 package com.api.StudyU_Flow.persistence.crud_repository;
 import com.api.StudyU_Flow.persistence.entity.SubjectEntity;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -11,4 +12,6 @@ public interface CrudSubjectRepository extends CrudRepository<SubjectEntity, Lon
     List<SubjectEntity> findAllByStudentDegree_IdStudentDegreeAndSemester(Long idStudentDegree, int nSemester);
 
     SubjectEntity findByIdSubject(Long idSubject);
+
+    ResponseEntity<Void> deleteByIdSubject(Long idSubject);
 }

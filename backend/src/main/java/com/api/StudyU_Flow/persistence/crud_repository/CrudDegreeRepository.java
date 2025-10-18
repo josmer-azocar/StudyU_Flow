@@ -8,5 +8,7 @@ import java.util.Optional;
 public interface CrudDegreeRepository extends CrudRepository<DegreeEntity, Long> {
 
     DegreeEntity findByIdDegree(Long idDegree);
+
+    DegreeEntity findFirstByIdDegree(Long idDegree);
 }
 

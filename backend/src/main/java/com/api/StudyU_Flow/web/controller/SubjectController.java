@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/subject")
-@Tag(name = "Subjects", description = "CRUD Subject and additional information")
+@Tag(name = "Subjects and Records", description = "CRUD Subject/Record and additional information")
 public class SubjectController {
 
     private final SubjectService subjectService;
@@ -138,7 +138,6 @@ public class SubjectController {
         return ResponseEntity.ok(subjectResponseDtos);
     }
 
-
     /**
      * @description
      * ES: Endpoint para obtener todas las Asignaturas y sus Records de un estudiante por su nombre de usuario y el id de la carrera que cursa.
@@ -200,6 +199,43 @@ public class SubjectController {
         }
 
         return ResponseEntity.ok(subjectAndRecordResponseDtos);
+    }
+
+    /**
+     * @description
+     * ES: Endpoint para obtener la Asignatura y su Record por el id de la asignatura.
+     * EN: Endpoint to get the Subject and its Record by subject id.
+     */
+    @GetMapping("/{idSubject}")
+    @Operation(
+            summary = "Get Subject and Record by id",
+            description = "Returns a SubjectAndRecordResponseDto for the given subject id",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Subject and record found")
+            }
+    )
+    ResponseEntity<SubjectAndRecordResponseDto> getSubjectAndRecordByIdSubject(
+            @Parameter(description = "Subject id") @PathVariable Long idSubject){
+        return ResponseEntity.ok(this.subjectService.getSubjectAndRecordByIdSubject(idSubject));
+    }
+
+    /**
+     * @description
+     * ES: Endpoint para eliminar una Asignatura y su Record por el id de la asignatura.
+     * EN: Endpoint to delete the Subject and its Record by subject id.
+     */
+    @DeleteMapping("/{idSubject}")
+    @Operation(
+            summary = "Delete Subject and Record by id",
+            description = "Deletes the subject and its record for the given subject id",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Subject and record deleted successfully")
+            }
+    )
+    ResponseEntity<Void> deleteSubjectAndRecordByIdSubject(
+            @Parameter(description = "Subject id") @PathVariable Long idSubject){
+        this.subjectService.deleteSubjectAndRecordByIdSubject(idSubject);
+        return ResponseEntity.ok().build();
     }
 
 }

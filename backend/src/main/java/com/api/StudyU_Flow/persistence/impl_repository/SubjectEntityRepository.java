@@ -18,6 +18,7 @@ import com.api.StudyU_Flow.persistence.entity.SubjectEntity;
 import com.api.StudyU_Flow.persistence.mapper.StudentSubjectRecordMapper;
 import com.api.StudyU_Flow.persistence.mapper.SubjectMapper;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -188,5 +189,34 @@ public class SubjectEntityRepository {
         this.recordMapper.updateEntityFromDto(requestDto, recordEntity);
 
         return this.recordMapper.toResponseDto(this.crudStudentSubjectRecordRepository.save(recordEntity));
+    }
+
+    public ResponseEntity<Void> deleteSubjectAndRecordByIdSubject(Long idSubject) {
+        if (this.crudSubjectRepository.findByIdSubject(idSubject) == null){
+            throw new SubjectDoesNotExistsException(idSubject);
+        }
+
+        if (this.crudStudentSubjectRecordRepository.findBySubject_IdSubject(idSubject) != null){
+            this.crudStudentSubjectRecordRepository.deleteBySubject_IdSubject(idSubject);
+        }
+
+        return this.crudSubjectRepository.deleteByIdSubject(idSubject);
+    }
+
+    public SubjectAndRecordResponseDto getSubjectAndRecordByIdSubject(Long idSubject) {
+        if (this.crudSubjectRepository.findByIdSubject(idSubject) == null){
+            throw new SubjectDoesNotExistsException(idSubject);
+        }
+
+        SubjectEntity subjectEntity = this.crudSubjectRepository.findByIdSubject(idSubject);
+        StudentSubjectRecordEntity recordEntity = this.crudStudentSubjectRecordRepository.findBySubject_IdSubject(idSubject);
+
+            SubjectAndRecordResponseDto responseDto = new SubjectAndRecordResponseDto(
+                    this.subjectMapper.toResponseDto(subjectEntity),
+                    this.recordMapper.toResponseDto(recordEntity)
+            );
+
+            return responseDto;
+
     }
 }
