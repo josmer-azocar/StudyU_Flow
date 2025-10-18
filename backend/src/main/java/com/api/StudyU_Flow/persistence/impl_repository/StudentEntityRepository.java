@@ -42,4 +42,11 @@ public class StudentEntityRepository {
         }
         return this.crudStudentRepository.deleteByIdStudent(idStudent);
     }
+
+    public StudentResponseDto getByIdStudent(Long idStudent) {
+        if(crudStudentRepository.findByIdStudent(idStudent) == null){
+            throw new StudentDoesNotExistsException(idStudent);
+        }
+        return this.studentMapper.toResponseDto(this.crudStudentRepository.findByIdStudent(idStudent));
+    }
 }

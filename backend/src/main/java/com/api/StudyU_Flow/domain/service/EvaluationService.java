@@ -3,7 +3,6 @@ package com.api.StudyU_Flow.domain.service;
 import com.api.StudyU_Flow.domain.dto.request.EvaluationRequestDto;
 import com.api.StudyU_Flow.domain.dto.response.EvaluationResponseDto;
 import com.api.StudyU_Flow.persistence.impl_repository.EvaluationEntityRepository;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

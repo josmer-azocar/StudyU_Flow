@@ -24,6 +24,30 @@ public class StudentController {
 
     /**
      * @description
+     * ES: Endpoint para obtener los datos de un Estudiante por su id.
+     * EN: Endpoint to get a Student by id.
+     */
+    @GetMapping("/{idStudent}")
+    @Operation(
+            summary = "Get Student by id",
+            description = "return StudentResponseDto",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Student retrieved successfully"),
+                    @ApiResponse(responseCode = "404", description = "Student not found")
+            }
+    )
+    public ResponseEntity<StudentResponseDto> getByIdStudent(
+            @Parameter(description = "Student id") @PathVariable Long idStudent){
+        StudentResponseDto studentDto = this.studentService.getByIdStudent(idStudent);
+
+        if (studentDto == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(studentDto);
+    }
+
+    /**
+     * @description
      * ES: Endpoint para obtener los datos de un Estudiante por su username.
      * EN: Endpoint to get a Student by username.
      */

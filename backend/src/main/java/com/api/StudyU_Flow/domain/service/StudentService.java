@@ -25,4 +25,8 @@ public class StudentService {
     public Void deleteByIdStudent(Long idStudent) {
         return this.studentEntityRepository.deleteByIdStudent(idStudent);
     }
+
+    public StudentResponseDto getByIdStudent(Long idStudent) {
+        return this.studentEntityRepository.getByIdStudent(idStudent);
+    }
 }
