@@ -2,6 +2,7 @@ package com.api.StudyU_Flow.persistence.impl_repository;
 
 import com.api.StudyU_Flow.domain.dto.request.StudentDegreeRequestDto;
 import com.api.StudyU_Flow.domain.dto.response.StudentDegreeResponseDto;
+import com.api.StudyU_Flow.domain.dto.update.UpdateStudentDegreeDto;
 import com.api.StudyU_Flow.domain.exception.DegreeDoesNotExistsException;
 import com.api.StudyU_Flow.domain.exception.StudentDoesNotExistsException;
 import com.api.StudyU_Flow.persistence.crud_repository.CrudStudentDegreeRepository;
@@ -46,7 +47,7 @@ public class StudentDegreeEntityRepository {
         return this.studentDegreeMapper.toResponseDto(this.crudStudentDegreeRepository.findAllByStudent_Username(username));
     }
 
-    public Void deleteByIdStudentDegree(long idStudentDegree) {
+    public Void deleteByIdStudentDegree(Long idStudentDegree) {
         if (this.crudStudentDegreeRepository.findByIdStudentDegree(idStudentDegree) == null){
             throw new DegreeDoesNotExistsException(idStudentDegree);
         }
@@ -58,9 +59,20 @@ public class StudentDegreeEntityRepository {
         if(this.crudStudentDegreeRepository.findByIdStudentDegree(idStudentDegree) == null){
             throw new DegreeDoesNotExistsException(idStudentDegree);
         }
-       StudentDegreeEntity studentDegree = this.crudStudentDegreeRepository.findByIdStudentDegree(idStudentDegree);
+        StudentDegreeEntity studentDegree = this.crudStudentDegreeRepository.findByIdStudentDegree(idStudentDegree);
 
         return this.studentDegreeMapper.toResponseDto(studentDegree);
 
+    }
+
+    public StudentDegreeResponseDto update(Long idStudentDegree, UpdateStudentDegreeDto studentDegreeDto) {
+        if (this.crudStudentDegreeRepository.findByIdStudentDegree(idStudentDegree) == null ){
+            throw new DegreeDoesNotExistsException(idStudentDegree);
+        }
+
+        StudentDegreeEntity studentDegreeEntity = this.crudStudentDegreeRepository.findByIdStudentDegree(idStudentDegree);
+        this.studentDegreeMapper.updateEntityFromDto(studentDegreeDto, studentDegreeEntity);
+
+        return this.studentDegreeMapper.toResponseDto(this.crudStudentDegreeRepository.save(studentDegreeEntity));
     }
 }

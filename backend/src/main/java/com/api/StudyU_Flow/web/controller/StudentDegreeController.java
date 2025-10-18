@@ -2,11 +2,13 @@ package com.api.StudyU_Flow.web.controller;
 
 import com.api.StudyU_Flow.domain.dto.request.StudentDegreeRequestDto;
 import com.api.StudyU_Flow.domain.dto.response.StudentDegreeResponseDto;
+import com.api.StudyU_Flow.domain.dto.update.UpdateStudentDegreeDto;
 import com.api.StudyU_Flow.domain.service.StudentDegreeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +41,7 @@ public class StudentDegreeController {
     )
     public ResponseEntity<StudentDegreeResponseDto> addStudentDegree(
             @Parameter(description = "Student username") @PathVariable String username,
-            @Parameter(description = "Student Degree data") @RequestBody StudentDegreeRequestDto studentDegreeRequestDto){
+            @Parameter(description = "Student Degree data") @RequestBody @Valid StudentDegreeRequestDto studentDegreeRequestDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.studentDegreeService.add(username, studentDegreeRequestDto));
     }
 
@@ -84,6 +86,27 @@ public class StudentDegreeController {
     ResponseEntity<StudentDegreeResponseDto> getByIdStudentDegree(
             @Parameter(description = "Student Degree id") @PathVariable Long idStudentDegree){
         return ResponseEntity.ok(this.studentDegreeService.getByIdStudentDegree(idStudentDegree));
+    }
+
+    /**
+     * @description
+     * ES: Endpoint para actualizar una carrera de un estudiante por su id.
+     * EN: Endpoint to update an Student Degree by its id.
+     */
+    @PutMapping("{idStudentDegree}")
+    @Operation(
+            summary = "Update Student Degree",
+            description = "Updates an existing Student degree by id",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "StudentDegree updated successfully")
+            }
+    )
+    ResponseEntity<StudentDegreeResponseDto> update(
+            @Parameter(description = "id StudentDegree")
+            @PathVariable Long idStudentDegree,
+            @Parameter(description = "Student Degree update data")
+            @RequestBody @Valid UpdateStudentDegreeDto studentDegreeDto){
+        return  ResponseEntity.ok(this.studentDegreeService.update(idStudentDegree, studentDegreeDto));
     }
 
     /**

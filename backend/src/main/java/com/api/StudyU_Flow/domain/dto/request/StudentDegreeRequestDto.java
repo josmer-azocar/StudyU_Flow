@@ -9,24 +9,20 @@ import lombok.Builder;
 @Builder
 public record StudentDegreeRequestDto(
 
-        @NotNull(message = "El ID de la carrera a la que pertenece es obligatorio.")
-        @Min(value = 1, message = "El ID de la carrera no es válido.")
+        @NotNull(message = "The degree ID to which it belongs is required.")
+        @Min(value = 1, message = "The degree ID is not valid.")
         Long idDegree,
 
-//        @NotNull(message = "El ID del Estudiante.")
-//        @Min(value = 1, message = "El ID del Estudiante no es valido.")
-//        Long idStudent,
-
-        @NotNull(message = "La cantidad de semestres es obligatoria.")
-        @Min(value = 1, message = "La carrera debe tener al menos 1 semestre.")
+        @NotNull(message = "The number of semesters is required.")
+        @Min(value = 1, message = "The degree must have at least 1 semester.")
         Integer quantitySemesters,
 
-        @NotNull(message = "El total de créditos es obligatorio.")
-        @Min(value = 1, message = "La carrera debe tener al menos 1 crédito.")
+        @NotNull(message = "The total credits are required.")
+        @Min(value = 1, message = "The degree must have at least 1 credit.")
         Integer totalCredits,
 
-        @NotBlank(message = "El nombre de la universidad no puede estar vacío.")
-        @Size(max = 100, message = "El nombre de la universidad no puede exceder los 100 caracteres.")
+        @NotBlank(message = "The university name must not be blank.")
+        @Size(max = 100, message = "The university name must not exceed 100 characters.")
         String universityName
 ) {
 }

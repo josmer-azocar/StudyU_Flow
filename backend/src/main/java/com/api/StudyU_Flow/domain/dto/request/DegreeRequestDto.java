@@ -7,8 +7,8 @@ import lombok.Builder;
 @Builder
 public record DegreeRequestDto(
 
-        @NotBlank(message = "El nombre de la carrera no puede estar vacío.")
-        @Size(max = 100, message = "El nombre no puede exceder los 100 caracteres.")
+        @NotBlank(message = "Degree name cant be empty.")
+        @Size(max = 100, message = "Degree name cannot exceed 100 characters.")
         String name
 
 
