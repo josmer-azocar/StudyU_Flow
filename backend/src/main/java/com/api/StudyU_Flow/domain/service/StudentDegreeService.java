@@ -4,6 +4,8 @@ import com.api.StudyU_Flow.domain.dto.request.StudentDegreeRequestDto;
 import com.api.StudyU_Flow.domain.dto.response.StudentDegreeResponseDto;
 import com.api.StudyU_Flow.domain.dto.update.UpdateStudentDegreeDto;
 import com.api.StudyU_Flow.persistence.impl_repository.StudentDegreeEntityRepository;
+import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,7 +30,8 @@ public class StudentDegreeService {
         return this.studentDegreeEntityRepository.deleteByIdStudentDegree(idStudentDegree);
     }
 
-    public StudentDegreeResponseDto getByIdStudentDegree(Long idStudentDegree) {
+    @Tool(description = "obtiene la informacion de la carrera que cursa el usuario segun el idStudentDegree")
+    public StudentDegreeResponseDto getByIdStudentDegree(@ToolParam(description = "idStudentDegree") Long idStudentDegree) {
         return this.studentDegreeEntityRepository.getByIdStudentDegree(idStudentDegree);
     }
 

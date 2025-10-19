@@ -1,17 +1,14 @@
 package com.api.StudyU_Flow.domain.service;
 
-import com.api.StudyU_Flow.domain.dto.response.DegreeCurrentProgressDto;
-import com.api.StudyU_Flow.domain.dto.response.StudentDegreeResponseDto;
-import com.api.StudyU_Flow.domain.dto.response.StudentResponseDto;
-import com.api.StudyU_Flow.domain.dto.response.SubjectAndRecordResponseDto;
+import com.api.StudyU_Flow.domain.dto.response.*;
 import com.api.StudyU_Flow.domain.tools.MathCalculations;
 import com.api.StudyU_Flow.persistence.impl_repository.StudentDegreeEntityRepository;
 import com.api.StudyU_Flow.persistence.impl_repository.StudentEntityRepository;
 import com.api.StudyU_Flow.persistence.impl_repository.SubjectEntityRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class GradeStatisticsService {
@@ -41,14 +38,14 @@ public class GradeStatisticsService {
 
         List<Integer> semesters = new ArrayList<>();
 
-        for(SubjectAndRecordResponseDto subject : subjectsAndRecords){
-            if(subject != null){
-                if(subject.recordData().status().equals("PASSED")){
+        for (SubjectAndRecordResponseDto subject : subjectsAndRecords) {
+            if (subject != null) {
+                if (subject.recordData().status().equals("PASSED")) {
                     approvedSubjects++;
                     approvedCredits = approvedCredits + subject.subjectData().credits();
                 }
 
-                if(subject.recordData().status().equals("IN_PROGRESS")){
+                if (subject.recordData().status().equals("IN_PROGRESS")) {
                     semesters.add(subject.subjectData().semester());
                 }
             }
@@ -58,11 +55,84 @@ public class GradeStatisticsService {
         percentage = MathCalculations.getPercentage(approvedCredits, studentDegreeDto.totalCredits());
         currentSemester = MathCalculations.findMaximumInCollection(semesters);
 
-        DegreeCurrentProgressDto degreeCurrentProgressDto = new DegreeCurrentProgressDto(
+        return  new DegreeCurrentProgressDto(
                 percentage, approvedCredits, approvedSubjects, currentSemester, missingCredits);
-
-        return degreeCurrentProgressDto;
     }
 
 
+    public List<SubjectAndRecordResponseDto> getTopFiveBestSubjectsGrades(Long idStudentDegree) {
+        StudentDegreeResponseDto studentDegreeDto = this.studentDegreeEntityRepository.getByIdStudentDegree(idStudentDegree);
+        StudentResponseDto studentDto = this.studentEntityRepository.getByIdStudent(studentDegreeDto.idStudent());
+
+        List<SubjectAndRecordResponseDto> subjectsAndRecords = this.subjectEntityRepository
+                .getAllSubjectsAndRecordsByStudent(studentDto.username(), idStudentDegree);
+
+        List<SubjectAndRecordResponseDto> approvedSubjectsAndRecords = new ArrayList<>();
+
+        for (SubjectAndRecordResponseDto subject : subjectsAndRecords) {
+            if (subject != null) {
+                if (subject.recordData().status().equals("PASSED")) {
+                    approvedSubjectsAndRecords.add(subject);
+                }
+            }
+        }
+
+        Map<Long, Double> approvedSubjectsMap = new HashMap<>();
+        for (SubjectAndRecordResponseDto subject : approvedSubjectsAndRecords) {
+            approvedSubjectsMap.put(subject.recordData().idRecord(), subject.recordData().finalGrade());
+        }
+
+        Map<Long, Double> top5SubjectsAndRecordsMap = MathCalculations.getTop5EntriesByValue(approvedSubjectsMap);
+
+        Set<Long> idRecords = top5SubjectsAndRecordsMap.keySet();
+        List<SubjectAndRecordResponseDto> top5SubjectsAndRecordsList = new ArrayList<>();
+
+        for (Long idRecord : idRecords) {
+            for (SubjectAndRecordResponseDto subject : approvedSubjectsAndRecords) {
+                if (idRecord != null && subject != null) {
+                    if (subject.recordData().idRecord() == idRecord) {
+                        top5SubjectsAndRecordsList.add(subject);
+                    }
+                }
+            }
+        }
+
+        return top5SubjectsAndRecordsList;
+    }
+
+    public GeneralAndWeightedAverageDto getGeneralAndWeightedAverage(Long idStudentDegree) {
+        StudentDegreeResponseDto studentDegreeDto = this.studentDegreeEntityRepository.getByIdStudentDegree(idStudentDegree);
+        StudentResponseDto studentDto = this.studentEntityRepository.getByIdStudent(studentDegreeDto.idStudent());
+
+        List<SubjectAndRecordResponseDto> subjectsAndRecords = this.subjectEntityRepository
+                .getAllSubjectsAndRecordsByStudent(studentDto.username(), idStudentDegree);
+
+        Double generalAverage = 0.0;
+        Double weightedAverage = 0.0;
+        Double cumulativeGrade = 0.0;
+        Integer cumulativeCredits = 0;
+        Double cumulativeGradeXcredits = 0.0;
+        Integer numSubjects = 0;
+
+        for (SubjectAndRecordResponseDto subject : subjectsAndRecords) {
+            if (subject != null) {
+                if (subject.recordData().status().equals("PASSED") || subject.recordData().status().equals("FAILED")) {
+                    //General Average
+                    cumulativeGrade = cumulativeGrade + subject.recordData().finalGrade();
+                    numSubjects++;
+
+                    //Weighted Average
+                    Double gradeXcredits = 0.0;
+                    gradeXcredits = subject.recordData().finalGrade() * subject.subjectData().credits();
+                    cumulativeGradeXcredits = cumulativeGradeXcredits + gradeXcredits;
+                    cumulativeCredits = cumulativeCredits + subject.subjectData().credits();
+                }
+            }
+        }
+
+        generalAverage = cumulativeGrade/numSubjects;
+        weightedAverage = cumulativeGradeXcredits/cumulativeCredits;
+
+        return new GeneralAndWeightedAverageDto(generalAverage, weightedAverage);
+    }
 }

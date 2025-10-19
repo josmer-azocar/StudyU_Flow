@@ -1,7 +1,7 @@
 package com.api.StudyU_Flow.domain.tools;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class MathCalculations {
 
@@ -14,5 +14,23 @@ public class MathCalculations {
             throw new IllegalArgumentException("The list cannot be empty.");
         }
         return Collections.max(numbers);
+    }
+    public static Map<Long, Double> getTop5EntriesByValue(Map<Long, Double> originalMap) {
+        if (originalMap == null || originalMap.isEmpty()) {
+            return new HashMap<>();
+        }
+
+        return originalMap.entrySet().stream()
+
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+
+                .limit(5)
+
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
     }
 }

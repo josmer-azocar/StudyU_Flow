@@ -7,7 +7,8 @@ import com.api.StudyU_Flow.domain.dto.response.StudentSubjectRecordResponseDto;
 import com.api.StudyU_Flow.domain.dto.response.SubjectAndRecordResponseDto;
 import com.api.StudyU_Flow.domain.dto.response.SubjectResponseDto;
 import com.api.StudyU_Flow.persistence.impl_repository.SubjectEntityRepository;
-import jakarta.validation.Valid;
+import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,10 @@ public class SubjectService {
         return this.subjectEntityRepository.getAllByStudent(username, idDegree);
     }
 
-    public List<SubjectAndRecordResponseDto> getAllSubjectsAndRecordsByStudent(String username, Long idStudentDegree) {
+    @Tool(description = "devuelve la una lista de asignaturas con su informacion segun el username y idStudentDegree")
+    public List<SubjectAndRecordResponseDto> getAllSubjectsAndRecordsByStudent(
+            @ToolParam(description = "username") String username,
+            @ToolParam(description = "idStudentDegree") Long idStudentDegree) {
         return this.subjectEntityRepository.getAllSubjectsAndRecordsByStudent(username, idStudentDegree);
     }
 

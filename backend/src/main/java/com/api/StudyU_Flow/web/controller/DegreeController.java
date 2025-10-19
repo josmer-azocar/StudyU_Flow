@@ -48,10 +48,10 @@ public class DegreeController {
 
     /**
      * @description
-     * ES: Endpoint para obtener una carrera especifica segun el id
-     * EN: Endpoint to get a specific degree by ID
+     * ES: Endpoint para obtener una carrera especifica segun su id
+     * EN: Endpoint to get a specific degree by its ID
      */
-    @GetMapping("/{idDegree}")
+    @GetMapping("/getByIdDegree/{idDegree}")
     @Operation(
             summary = "Get a Degree",
             description = "return DegreeResponseDto",
@@ -64,5 +64,22 @@ public class DegreeController {
         return ResponseEntity.ok(this.degreeService.getByIdDegree(idDegree));
     }
 
+    /**
+     * @description
+     * ES: Endpoint para obtener una carrera especifica segun el id de la Carrera cursada por un Estudiante
+     * EN: Endpoint to get a specific degree by ID Student Degree
+     */
+    @GetMapping("/getByIdStudentDegree/{idStudentDegree}")
+    @Operation(
+            summary = "Get a Degree",
+            description = "return DegreeResponseDto",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Degree retrieved successfully")
+            }
+    )
+    public ResponseEntity<DegreeResponseDto> getDegreeByIdStudentDegree(
+            @PathVariable @Parameter(description = "id StudentDegree") Long idStudentDegree){
+        return ResponseEntity.ok(this.degreeService.getDegreeByIdStudentDegree(idStudentDegree));
+    }
 
 }
