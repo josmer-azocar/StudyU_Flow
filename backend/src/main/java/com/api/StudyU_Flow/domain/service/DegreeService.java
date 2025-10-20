@@ -29,7 +29,7 @@ public class DegreeService {
         return this.degreeEntityRepository.getByIdDegree(idDegree);
     }
 
-    @Tool(description = "obtiene la informacion fundamental de la carrera segun el idStudentDegree")
+    @Tool(description = "Obtains the essential information about the Degree according to the idStudentDegree")
     public DegreeResponseDto getDegreeByIdStudentDegree(@ToolParam(description = "idStudentDegree") Long idStudentDegree){
         StudentDegreeResponseDto studentDegree = this.studentDegreeEntityRepository.getByIdStudentDegree(idStudentDegree);
         return getByIdDegree(studentDegree.idDegree());

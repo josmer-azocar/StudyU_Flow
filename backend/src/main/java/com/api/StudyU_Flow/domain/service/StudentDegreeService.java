@@ -30,7 +30,7 @@ public class StudentDegreeService {
         return this.studentDegreeEntityRepository.deleteByIdStudentDegree(idStudentDegree);
     }
 
-    @Tool(description = "obtiene la informacion de la carrera que cursa el usuario segun el idStudentDegree")
+    @Tool(description = "Obtains information about the Degree that the user is taking according to the idStudentDegree")
     public StudentDegreeResponseDto getByIdStudentDegree(@ToolParam(description = "idStudentDegree") Long idStudentDegree) {
         return this.studentDegreeEntityRepository.getByIdStudentDegree(idStudentDegree);
     }

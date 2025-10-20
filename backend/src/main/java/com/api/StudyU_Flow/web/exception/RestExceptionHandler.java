@@ -18,6 +18,13 @@ public class RestExceptionHandler {
         return ResponseEntity.badRequest().body(error);
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Error> handleBadRequestException(BadRequestException exception){
+        Error error = new Error("error-in-the-request",
+                exception.getMessage());
+        return ResponseEntity.badRequest().body(error);
+    }
+
     @ExceptionHandler(StudentDoesNotExistsException.class)
     public ResponseEntity<Error> handleException(StudentDoesNotExistsException ex){
         Error error = new Error("student-does-not-exist", ex.getMessage());
@@ -29,6 +36,13 @@ public class RestExceptionHandler {
         Error error = new Error("student-degree-does-not-exist", ex.getMessage());
         return ResponseEntity.badRequest().body(error);
     }
+
+    @ExceptionHandler(MaximumNumberOfDegreesException.class)
+    public ResponseEntity<Error> handleException(MaximumNumberOfDegreesException ex){
+        Error error = new Error("error-cannot-add-student-degree", ex.getMessage());
+        return ResponseEntity.badRequest().body(error);
+    }
+
 
     @ExceptionHandler(SubjectDoesNotExistsException.class)
     public ResponseEntity<Error> handleException(SubjectDoesNotExistsException ex){

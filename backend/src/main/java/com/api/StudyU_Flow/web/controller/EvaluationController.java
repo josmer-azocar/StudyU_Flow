@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,8 +40,7 @@ public class EvaluationController {
     ResponseEntity<EvaluationResponseDto> add(
             @Parameter(description = "Record id") @PathVariable Long idRecord,
             @RequestBody @Valid EvaluationRequestDto evaluationRequestDto){
-
-        return ResponseEntity.ok(this.evaluationService.add(idRecord,evaluationRequestDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.evaluationService.add(idRecord,evaluationRequestDto));
     }
 
     /**

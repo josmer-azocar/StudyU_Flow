@@ -35,7 +35,7 @@ public class SubjectService {
         return this.subjectEntityRepository.getAllByStudent(username, idDegree);
     }
 
-    @Tool(description = "devuelve la una lista de asignaturas con su informacion segun el username y idStudentDegree")
+    @Tool(description = "Obtains a list of subjects with their information according to the username and idStudentDegree")
     public List<SubjectAndRecordResponseDto> getAllSubjectsAndRecordsByStudent(
             @ToolParam(description = "username") String username,
             @ToolParam(description = "idStudentDegree") Long idStudentDegree) {
@@ -60,5 +60,13 @@ public class SubjectService {
 
     public SubjectAndRecordResponseDto getSubjectAndRecordByIdSubject(Long idSubject) {
         return this.subjectEntityRepository.getSubjectAndRecordByIdSubject(idSubject);
+    }
+
+    public List<SubjectResponseDto> addSubjectList(List<SubjectRequestDto> requestDto) {
+        return this.subjectEntityRepository.addSubjectList(requestDto);
+    }
+
+    public List<SubjectAndRecordResponseDto> addSubjectAndRecordList(List<SubjectAndRecordRequestDto> requestDto) {
+        return this.subjectEntityRepository.addSubjectAndRecordList(requestDto);
     }
 }

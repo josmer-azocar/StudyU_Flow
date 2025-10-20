@@ -60,7 +60,7 @@ public class DegreeController {
             }
     )
     public ResponseEntity<DegreeResponseDto> getByIdDegree(
-            @PathVariable @Parameter(description = "id Degree") Long idDegree){
+            @Parameter(description = "id Degree") @PathVariable Long idDegree){
         return ResponseEntity.ok(this.degreeService.getByIdDegree(idDegree));
     }
 
@@ -78,7 +78,7 @@ public class DegreeController {
             }
     )
     public ResponseEntity<DegreeResponseDto> getDegreeByIdStudentDegree(
-            @PathVariable @Parameter(description = "id StudentDegree") Long idStudentDegree){
+            @Parameter(description = "id StudentDegree") @PathVariable Long idStudentDegree){
         return ResponseEntity.ok(this.degreeService.getDegreeByIdStudentDegree(idStudentDegree));
     }
 

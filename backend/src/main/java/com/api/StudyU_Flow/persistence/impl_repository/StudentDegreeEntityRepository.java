@@ -4,6 +4,7 @@ import com.api.StudyU_Flow.domain.dto.request.StudentDegreeRequestDto;
 import com.api.StudyU_Flow.domain.dto.response.StudentDegreeResponseDto;
 import com.api.StudyU_Flow.domain.dto.update.UpdateStudentDegreeDto;
 import com.api.StudyU_Flow.domain.exception.DegreeDoesNotExistsException;
+import com.api.StudyU_Flow.domain.exception.MaximumNumberOfDegreesException;
 import com.api.StudyU_Flow.domain.exception.StudentDoesNotExistsException;
 import com.api.StudyU_Flow.persistence.crud_repository.CrudStudentDegreeRepository;
 import com.api.StudyU_Flow.persistence.crud_repository.CrudStudentRepository;
@@ -19,6 +20,7 @@ public class StudentDegreeEntityRepository {
     private final StudentDegreeMapper studentDegreeMapper;
     private final CrudStudentDegreeRepository crudStudentDegreeRepository;
     private final CrudStudentRepository crudStudentRepository;
+    private static final Integer MAXIMUM_NUMBER_DEGREES = 3;
 
     public StudentDegreeEntityRepository(StudentDegreeMapper studentDegreeMapper, CrudStudentDegreeRepository crudStudentDegreeRepository, CrudStudentRepository crudStudentRepository) {
         this.studentDegreeMapper = studentDegreeMapper;
@@ -29,6 +31,10 @@ public class StudentDegreeEntityRepository {
     public StudentDegreeResponseDto add(String username, StudentDegreeRequestDto studentDegreeRequestDto) {
         if (this.crudStudentRepository.findFirstByUsername(username) == null) {
             throw new StudentDoesNotExistsException(username);
+        }
+
+        if(this.crudStudentDegreeRepository.countByStudent_Username(username) >= MAXIMUM_NUMBER_DEGREES){
+            throw new MaximumNumberOfDegreesException(username);
         }
 
         StudentDegreeEntity studentDegreeEntity = this.studentDegreeMapper.toEntity(studentDegreeRequestDto);

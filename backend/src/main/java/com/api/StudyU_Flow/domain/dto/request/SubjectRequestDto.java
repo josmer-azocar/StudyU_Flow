@@ -14,10 +14,9 @@ public record SubjectRequestDto(
         String name,
 
         @NotNull(message = "The number of credits is required.")
-        @Min(value = 1, message = "The subject must have at least 1 credit.")
+        @Min(value = 0, message = "The subject must have at least 0 credit.")
         Integer credits,
 
-        @NotNull(message = "The semester number is required.")
         @Min(value = 1, message = "The semester must be at least 1.")
         Integer semester,
 

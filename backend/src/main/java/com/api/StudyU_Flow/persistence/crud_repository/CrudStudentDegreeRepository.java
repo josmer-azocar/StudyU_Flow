@@ -12,5 +12,7 @@ public interface CrudStudentDegreeRepository extends CrudRepository<StudentDegre
     List<StudentDegreeEntity> findAllByStudent_Username(String username);
     StudentDegreeEntity findByIdStudentDegreeAndStudent_Username(Long idStudentDegree, String username);
 
+    Integer countByStudent_Username(String studentUsername);
+
     Void deleteByIdStudentDegree(Long idStudentDegree);
 }

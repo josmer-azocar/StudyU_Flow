@@ -3,6 +3,8 @@ package com.api.StudyU_Flow.domain.service;
 import com.api.StudyU_Flow.domain.dto.request.EvaluationRequestDto;
 import com.api.StudyU_Flow.domain.dto.response.EvaluationResponseDto;
 import com.api.StudyU_Flow.persistence.impl_repository.EvaluationEntityRepository;
+import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +34,9 @@ public class EvaluationService {
         return this.evaluationEntityRepository.getByIdEvaluation(idEvaluation);
     }
 
-    public List<EvaluationResponseDto> getAllByIdRecord(Long idRecord) {
+    @Tool(description = "Obtains a list of subjects evaluations with their information according to the idRecord " +
+            "(in order to get idRecord is important to use SubjectService to obtain data of subjects and their records)")
+    public List<EvaluationResponseDto> getAllByIdRecord(@ToolParam(description = "idRecord") Long idRecord) {
         return this.evaluationEntityRepository.getAllByIdRecord(idRecord);
     }
 }

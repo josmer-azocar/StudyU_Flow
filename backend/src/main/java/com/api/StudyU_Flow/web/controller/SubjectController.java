@@ -47,6 +47,26 @@ public class SubjectController {
             @RequestBody @Valid SubjectRequestDto requestDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.subjectService.add(requestDto));
 }
+
+    /**
+     * @description
+     * ES: Endpoint para crear una lista de Asignaturas.
+     * EN: Endpoint to create a list Subjects.
+     */
+    @PostMapping("/addSubjectList")
+    @Operation(
+            summary = "Create several Subjects",
+            description = "return List<SubjectResponseDto>",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Subjects created successfully")
+            }
+    )
+    ResponseEntity<List<SubjectResponseDto>> addSubjectList(
+            @Parameter(description = "Subjects data")
+            @RequestBody @Valid List<SubjectRequestDto> requestDto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.subjectService.addSubjectList(requestDto));
+    }
+
     /**
      * @description
      * ES: Endpoint para crear un record y asignarlo a una asignatura.
@@ -95,18 +115,37 @@ public class SubjectController {
      * ES: Endpoint para crear una nueva Asignatura y su Record con la informacion detallada.
      * EN: Endpoint to create a new Subject and his Record with detail information.
      */
-    @PostMapping("/add")
+    @PostMapping("/addSubjectAndRecord")
     @Operation(
             summary = "Create a new Subject and Record",
             description = "return SubjectAndRecordResponseDto",
             responses = {
-                    @ApiResponse(responseCode = "201", description = "Subject created successfully")
+                    @ApiResponse(responseCode = "201", description = "Subject and Record created successfully")
             }
     )
     ResponseEntity<SubjectAndRecordResponseDto> addSubjectAndRecord(
             @Parameter(description = "Combined data for subject and record")
             @RequestBody @Valid SubjectAndRecordRequestDto requestDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.subjectService.add(requestDto));
+    }
+
+    /**
+     * @description
+     * ES: Endpoint para crear una lista de Asignaturas y sus Records con la informacion detallada.
+     * EN: Endpoint to create a list of Subject and their Records with detail information.
+     */
+    @PostMapping("/addSubjectAndRecord/List")
+    @Operation(
+            summary = "Create a list of Subjects and Records",
+            description = "return List<SubjectAndRecordResponseDto>",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Subjects and Records created successfully")
+            }
+    )
+    ResponseEntity<List<SubjectAndRecordResponseDto>> addSubjectAndRecordList(
+            @Parameter(description = "List of combined data for subject and record")
+            @RequestBody @Valid List<SubjectAndRecordRequestDto> requestDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.subjectService.addSubjectAndRecordList(requestDto));
     }
 
     /**

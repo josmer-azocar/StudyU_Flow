@@ -16,7 +16,7 @@ public class StudentService {
         this.studentEntityRepository = studentEntityRepository;
     }
 
-    @Tool(description = "devuelve la informacion personal del usuario a traves de su username")
+    @Tool(description = "Obtains the user's personal information through his/her username")
     public StudentResponseDto getByUsername(@ToolParam(description = "username") String username) {
         return this.studentEntityRepository.getByUsername(username);
     }

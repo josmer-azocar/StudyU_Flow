@@ -18,6 +18,7 @@ import com.api.StudyU_Flow.persistence.entity.SubjectEntity;
 import com.api.StudyU_Flow.persistence.mapper.StudentSubjectRecordMapper;
 import com.api.StudyU_Flow.persistence.mapper.SubjectMapper;
 import jakarta.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
@@ -44,6 +45,10 @@ public class SubjectEntityRepository {
     }
 
     public SubjectResponseDto add(SubjectRequestDto requestDto) {
+        if(this.crudStudentDegreeRepository.findByIdStudentDegree(requestDto.idStudentDegree()) == null){
+            throw new DegreeDoesNotExistsException(requestDto.idStudentDegree());
+        }
+
         SubjectEntity subjectEntity = this.subjectMapper.toEntity(requestDto);
         return this.subjectMapper.toResponseDto(crudSubjectRepository.save(subjectEntity));
     }
@@ -218,5 +223,40 @@ public class SubjectEntityRepository {
 
             return responseDto;
 
+    }
+
+    public List<SubjectResponseDto> addSubjectList(List<SubjectRequestDto> requestDto) {
+        if (requestDto == null || requestDto.isEmpty()){
+            throw new BadRequestException("The List of Subjects cannot be empty");
+        }
+
+        List<SubjectEntity> subjectEntities = new ArrayList<>();
+        for (SubjectRequestDto dto : requestDto){
+            if (dto != null) {
+
+                if(this.crudStudentDegreeRepository.findByIdStudentDegree(dto.idStudentDegree()) == null){
+                    throw new DegreeDoesNotExistsException(dto.idStudentDegree());
+                }
+
+                subjectEntities.add(this.subjectMapper.toEntity(dto));
+            }
+        }
+        return this.subjectMapper.toResponseDto(crudSubjectRepository.saveAll(subjectEntities));
+    }
+
+    public List<SubjectAndRecordResponseDto> addSubjectAndRecordList(List<SubjectAndRecordRequestDto> requestDto) {
+        if (requestDto == null || requestDto.isEmpty()){
+            throw new BadRequestException("The List of Subjects cannot be empty");
+        }
+
+        List<SubjectAndRecordResponseDto> responseDto = new ArrayList<>();
+
+        for (SubjectAndRecordRequestDto dto : requestDto){
+            if (dto != null) {
+                responseDto.add(add(dto));
+            }
+        }
+
+        return responseDto;
     }
 }
