@@ -39,4 +39,10 @@ public class EvaluationService {
     public List<EvaluationResponseDto> getAllByIdRecord(@ToolParam(description = "idRecord") Long idRecord) {
         return this.evaluationEntityRepository.getAllByIdRecord(idRecord);
     }
+
+    @Tool(description = "Obtains a list of subjects evaluations with their information according to the idStudentDegree" +
+    "(Each one contains an idRecord that links to the subject of that evaluation)")
+    public List<EvaluationResponseDto> getAllByIdStudentDegree(@ToolParam(description = "idStudentDegree") Long idStudentDegree) {
+     return this.evaluationEntityRepository.getAllByIdStudentDegree(idStudentDegree);
+    }
 }

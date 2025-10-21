@@ -1,5 +1,6 @@
 package com.api.StudyU_Flow.domain.service;
 
+import com.api.StudyU_Flow.domain.Enum.Status;
 import com.api.StudyU_Flow.domain.dto.response.*;
 import com.api.StudyU_Flow.domain.tools.MathCalculations;
 import com.api.StudyU_Flow.persistence.impl_repository.StudentDegreeEntityRepository;
@@ -39,12 +40,13 @@ public class GradeStatisticsService {
 
         for (SubjectAndRecordResponseDto subject : subjectsAndRecords) {
             if (subject != null) {
-                if (subject.recordData().status().equals("PASSED")) {
+                if (subject.recordData().status().equals(Status.PASSED)) {
                     approvedSubjects++;
                     approvedCredits = approvedCredits + subject.subjectData().credits();
+                    semesters.add(subject.subjectData().semester());
                 }
 
-                if (subject.recordData().status().equals("IN_PROGRESS")) {
+                if (subject.recordData().status().equals(Status.IN_PROGRESS)) {
                     semesters.add(subject.subjectData().semester());
                 }
             }
@@ -55,7 +57,11 @@ public class GradeStatisticsService {
         currentSemester = MathCalculations.findMaximumInCollection(semesters);
 
         return  new DegreeCurrentProgressDto(
-                percentage, approvedCredits, approvedSubjects, currentSemester, missingCredits);
+                MathCalculations.roundDouble(percentage, 1),
+                approvedCredits,
+                approvedSubjects,
+                currentSemester,
+                missingCredits);
     }
 
 
@@ -70,7 +76,7 @@ public class GradeStatisticsService {
 
         for (SubjectAndRecordResponseDto subject : subjectsAndRecords) {
             if (subject != null) {
-                if (subject.recordData().status().equals("PASSED")) {
+                if (subject.recordData().status().equals(Status.PASSED)) {
                     approvedSubjectsAndRecords.add(subject);
                 }
             }
@@ -115,7 +121,7 @@ public class GradeStatisticsService {
 
         for (SubjectAndRecordResponseDto subject : subjectsAndRecords) {
             if (subject != null) {
-                if (subject.recordData().status().equals("PASSED") || subject.recordData().status().equals("FAILED")) {
+                if (subject.recordData().status().equals(Status.PASSED) || subject.recordData().status().equals(Status.FAILED)) {
                     //General Average
                     cumulativeGrade = cumulativeGrade + subject.recordData().finalGrade();
                     numSubjects++;
@@ -132,6 +138,9 @@ public class GradeStatisticsService {
         generalAverage = cumulativeGrade/numSubjects;
         weightedAverage = cumulativeGradeXcredits/cumulativeCredits;
 
-        return new GeneralAndWeightedAverageDto(generalAverage, weightedAverage);
+        return new GeneralAndWeightedAverageDto(
+                MathCalculations.roundDouble(generalAverage, 2),
+                MathCalculations.roundDouble(weightedAverage, 2)
+        );
     }
 }

@@ -2,6 +2,7 @@ package com.api.StudyU_Flow.persistence.impl_repository;
 
 import com.api.StudyU_Flow.domain.dto.request.EvaluationRequestDto;
 import com.api.StudyU_Flow.domain.dto.response.EvaluationResponseDto;
+import com.api.StudyU_Flow.domain.exception.DegreeDoesNotExistsException;
 import com.api.StudyU_Flow.domain.exception.EvaluationDoesNotExistsException;
 import com.api.StudyU_Flow.domain.exception.SubjectRecordDoesNotExistsException;
 import com.api.StudyU_Flow.persistence.crud_repository.CrudEvaluationRepository;
@@ -19,11 +20,13 @@ public class EvaluationEntityRepository {
     private final CrudEvaluationRepository crudEvaluationRepository;
     private final CrudStudentSubjectRecordRepository crudStudentSubjectRecordRepository;
     private final EvaluationMapper evaluationMapper;
+    private final StudentDegreeEntityRepository studentDegreeEntityRepository;
 
-    public EvaluationEntityRepository(CrudEvaluationRepository crudEvaluationRepository, CrudStudentSubjectRecordRepository crudStudentSubjectRecordRepository, EvaluationMapper evaluationMapper) {
+    public EvaluationEntityRepository(CrudEvaluationRepository crudEvaluationRepository, CrudStudentSubjectRecordRepository crudStudentSubjectRecordRepository, EvaluationMapper evaluationMapper, StudentDegreeEntityRepository studentDegreeEntityRepository) {
         this.crudEvaluationRepository = crudEvaluationRepository;
         this.crudStudentSubjectRecordRepository = crudStudentSubjectRecordRepository;
         this.evaluationMapper = evaluationMapper;
+        this.studentDegreeEntityRepository = studentDegreeEntityRepository;
     }
 
     public EvaluationResponseDto add(Long idRecord, EvaluationRequestDto evaluationRequestDto) {
@@ -74,5 +77,15 @@ public class EvaluationEntityRepository {
         }
 
         return this.evaluationMapper.toResponseDto(this.crudEvaluationRepository.getAllByRecord_IdRecord(idRecord));
+    }
+
+    public List<EvaluationResponseDto> getAllByIdStudentDegree(Long idStudentDegree) {
+        if(this.studentDegreeEntityRepository.getByIdStudentDegree(idStudentDegree) == null){
+            throw new DegreeDoesNotExistsException(idStudentDegree);
+        }
+        List<EvaluationEntity> evaluations = this.crudEvaluationRepository
+                .getAllByRecord_Subject_StudentDegree_IdStudentDegree(idStudentDegree);
+
+        return this.evaluationMapper.toResponseDto(evaluations);
     }
 }

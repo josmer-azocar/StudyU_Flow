@@ -1,5 +1,6 @@
 package com.api.StudyU_Flow.domain.service;
 import com.api.StudyU_Flow.domain.dto.response.SubjectPensumResponseDto;
+import com.api.StudyU_Flow.domain.exception.DegreeDoesNotExistsException;
 import com.api.StudyU_Flow.domain.exception.MessageCantBeEmptyException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -112,6 +113,9 @@ public class AIChatService {
     }
 
     public List<SubjectPensumResponseDto> processPensum(MultipartFile pdfFile, Long idStudentDegree) throws IOException {
+        if (this.studentDegreeService.getByIdStudentDegree(idStudentDegree) == null)
+            throw new DegreeDoesNotExistsException(idStudentDegree);
+
         byte[] bytes = pdfFile.getBytes();
         ByteArrayResource pdfResource = new ByteArrayResource(bytes) {
             @Override

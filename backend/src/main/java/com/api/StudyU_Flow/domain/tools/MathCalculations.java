@@ -1,5 +1,7 @@
 package com.api.StudyU_Flow.domain.tools;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,5 +34,16 @@ public class MathCalculations {
                         (e1, e2) -> e1,
                         LinkedHashMap::new
                 ));
+    }
+
+    public static Double roundDouble(Double value, int decimals) {
+        if (value == null) {
+            return null;
+        }
+
+        BigDecimal bd = new BigDecimal(Double.toString(value));
+        bd = bd.setScale(decimals, RoundingMode.HALF_UP);
+
+        return bd.doubleValue();
     }
 }

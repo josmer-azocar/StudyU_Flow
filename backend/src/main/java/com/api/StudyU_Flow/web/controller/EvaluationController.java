@@ -108,6 +108,32 @@ public class EvaluationController {
 
     /**
      * @description
+     * ES: Endpoint para obtener todas las Evaluaciones asociadas a una carrera.
+     * EN: Endpoint to get all Evaluations for a given idStudentDegree.
+     */
+    @GetMapping("/studentDegree/{idStudentDegree}")
+    @Operation(
+            summary = "Get all Evaluations by idStudentDegree",
+            description = "Returns a list of EvaluationResponseDto for the given idStudentDegree",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Evaluations found"),
+                    @ApiResponse(responseCode = "204", description = "No evaluations found for the given idStudentDegree")
+            }
+    )
+    ResponseEntity<List<EvaluationResponseDto>> getAllByIdStudentDegree(
+            @Parameter(description = "id StudentDegree") @PathVariable Long idStudentDegree){
+
+        List<EvaluationResponseDto> evaluations = this.evaluationService.getAllByIdStudentDegree(idStudentDegree);
+
+        if(evaluations.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(evaluations);
+    }
+
+    /**
+     * @description
      * ES: Endpoint para eliminar una Evaluación por su id.
      * EN: Endpoint to delete an Evaluation by its id.
      */

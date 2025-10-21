@@ -12,4 +12,5 @@ public interface CrudEvaluationRepository extends CrudRepository<EvaluationEntit
     Void deleteByIdEvaluation(Long idEvaluation);
 
     List<EvaluationEntity> getAllByRecord_IdRecord(Long recordIdRecord);
+    List<EvaluationEntity> getAllByRecord_Subject_StudentDegree_IdStudentDegree(Long idStudentDegree);
 }
