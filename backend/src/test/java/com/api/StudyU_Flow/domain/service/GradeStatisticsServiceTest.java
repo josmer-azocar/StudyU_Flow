@@ -63,11 +63,11 @@ class GradeStatisticsServiceTest {
 
         List<SubjectAndRecordResponseDto> list = new ArrayList<>(List.of(
                 new SubjectAndRecordResponseDto(
-                        new SubjectResponseDto(1L, "Matemáticas", 4, 1, 1L),
+                        new SubjectResponseDto(1L, "Math", 4, 1, 1L),
                         new StudentSubjectRecordResponseDto(100L, 1, 4.5, Status.PASSED, 1L, 1L)
                 ),
                 new SubjectAndRecordResponseDto(
-                        new SubjectResponseDto(2L, "Historia", 3, 2, 1L),
+                        new SubjectResponseDto(2L, "History", 3, 2, 1L),
                         new StudentSubjectRecordResponseDto(101L, 2, 3.8, Status.IN_PROGRESS, 1L, 2L)
                 )
         ));
@@ -86,35 +86,35 @@ class GradeStatisticsServiceTest {
 
         List<SubjectAndRecordResponseDto> originaList = new ArrayList<>(List.of(
                 new SubjectAndRecordResponseDto(
-                        new SubjectResponseDto(1L, "Matemáticas", 4, 1, 1L),
+                        new SubjectResponseDto(1L, "Math", 4, 1, 1L),
                         new StudentSubjectRecordResponseDto(100L, 1, 3.0, Status.PASSED, 1L, 1L)
                 ),
                 new SubjectAndRecordResponseDto(
-                        new SubjectResponseDto(2L, "Historia", 3, 2, 1L),
+                        new SubjectResponseDto(2L, "History", 3, 2, 1L),
                         new StudentSubjectRecordResponseDto(101L, 2, 3.5, Status.IN_PROGRESS, 1L, 2L)
                 ),
                 new SubjectAndRecordResponseDto(
-                        new SubjectResponseDto(3L, "Física", 4, 1, 1L),
+                        new SubjectResponseDto(3L, "physics", 4, 1, 1L),
                         new StudentSubjectRecordResponseDto(102L, 3, 4.5, Status.PASSED, 1L, 3L)
                 ),
                 new SubjectAndRecordResponseDto(
-                        new SubjectResponseDto(4L, "Química", 4, 1, 1L),
+                        new SubjectResponseDto(4L, "chemistry", 4, 1, 1L),
                         new StudentSubjectRecordResponseDto(103L, 4, 5.0, Status.PASSED, 1L, 4L)
                 ),
                 new SubjectAndRecordResponseDto(
-                        new SubjectResponseDto(5L, "Biología", 3, 2, 1L),
+                        new SubjectResponseDto(5L, "Biology", 3, 2, 1L),
                         new StudentSubjectRecordResponseDto(104L, 5, 5.5, Status.PASSED, 1L, 5L)
                 ),
                 new SubjectAndRecordResponseDto(
-                        new SubjectResponseDto(6L, "Lengua", 2, 2, 1L),
+                        new SubjectResponseDto(6L, "Spanish", 2, 2, 1L),
                         new StudentSubjectRecordResponseDto(105L, 6, 6.0, Status.PASSED, 1L, 6L)
                 ),
                 new SubjectAndRecordResponseDto(
-                        new SubjectResponseDto(7L, "Inglés", 2, 2, 1L),
+                        new SubjectResponseDto(7L, "English", 2, 2, 1L),
                         new StudentSubjectRecordResponseDto(106L, 7, 7.0, Status.IN_PROGRESS, 1L, 7L)
                 ),
                 new SubjectAndRecordResponseDto(
-                        new SubjectResponseDto(8L, "Arte", 1, 3, 1L),
+                        new SubjectResponseDto(8L, "Art", 1, 3, 1L),
                         new StudentSubjectRecordResponseDto(107L, 8, 8.0, Status.PASSED, 1L, 8L)
                 )
         ));
@@ -141,19 +141,19 @@ class GradeStatisticsServiceTest {
     void getGeneralAndWeightedAverage() {
         List<SubjectAndRecordResponseDto> originaList = new ArrayList<>(List.of(
                 new SubjectAndRecordResponseDto(
-                        new SubjectResponseDto(5L, "Biología", 3, 2, 1L),
+                        new SubjectResponseDto(5L, "Biology", 3, 2, 1L),
                         new StudentSubjectRecordResponseDto(104L, 5, 5.5, Status.PASSED, 1L, 5L)
                 ),
                 new SubjectAndRecordResponseDto(
-                        new SubjectResponseDto(6L, "Lengua", 2, 2, 1L),
+                        new SubjectResponseDto(6L, "Spanish", 2, 2, 1L),
                         new StudentSubjectRecordResponseDto(105L, 6, 6.0, Status.PASSED, 1L, 6L)
                 ),
                 new SubjectAndRecordResponseDto(
-                        new SubjectResponseDto(7L, "Inglés", 2, 2, 1L),
+                        new SubjectResponseDto(7L, "English", 2, 2, 1L),
                         new StudentSubjectRecordResponseDto(106L, 7, 7.0, Status.IN_PROGRESS, 1L, 7L)
                 ),
                 new SubjectAndRecordResponseDto(
-                        new SubjectResponseDto(8L, "Arte", 1, 3, 1L),
+                        new SubjectResponseDto(8L, "Art", 1, 3, 1L),
                         new StudentSubjectRecordResponseDto(107L, 8, 8.0, Status.PASSED, 1L, 8L)
                 )
         ));
