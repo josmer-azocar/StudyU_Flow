@@ -60,8 +60,9 @@ Backend for StudyU Flow, a platform to manage university academic performance. B
 - `AIChatController` — AI chat endpoints
 
 ## Data Model Diagram
+<img width="800" height="1000" alt="StudyU Flow DB (1)" src="https://github.com/user-attachments/assets/7906a427-3e4a-4ec6-9c71-dc0784404c69" />
 
-<img width="800" height="1000" alt="StudyU Flow DB Diagram" src="https://github.com/user-attachments/assets/11961c23-9dad-4979-8b7d-46133026b244" />
+
 
 ## Tech Stack
 
