@@ -19,7 +19,7 @@ public class StudentSubjectRecordEntity extends AuditableEntity implements Seria
     @Column(name = "id_record", nullable = false)
     private Long idRecord;;
 
-    @Column(name = "status", length = 10, nullable = false)
+    @Column(name = "status", length = 12, nullable = false)
     private String status;
 
     @Column(name = "final_grade")
