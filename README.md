@@ -1,143 +1,182 @@
-# 🍃📚 StudyU Flow (Mentor Academico con IA)
-<img width="600" height="600" alt="Generated Image October 20, 2025 - 5_04PM - Edited" src="https://github.com/user-attachments/assets/9ad5483a-b433-48a1-b654-5a2df90cae5b" />
+# 🍃📚 StudyU Flow — AI-Powered Academic Mentor
 
-Backend de StudyU Flow para la gestión del rendimiento académico universitario. Construido con Spring Boot 3, expone APIs REST seguras con JWT, persiste en PostgreSQL y documenta el contrato con OpenAPI/Swagger. Incluye capacidades de IA (Spring AI + Google GenAI) para soporte conversacional.
+<p align="center">
+<img width="600" height="600" alt="StudyU Flow — Generated Image" src="https://github.com/user-attachments/assets/9ad5483a-b433-48a1-b654-5a2df90cae5b" />
+</p>
+<p align="center">
+  <a href="#overview">Overview</a> •
+  <a href="#key-features">Key Features</a> •
+  <a href="#architecture">Architecture</a> •
+  <a href="#data-model-diagram">Data Model</a> •
+  <a href="#getting-started">Getting Started</a> •
+  <a href="#security--auth">Security</a> •
+  <a href="#api-documentation">API Docs</a> •
+  <a href="#testing">Testing</a> •
+  <a href="#troubleshooting">Troubleshooting</a> •
+  <a href="#contributing">Contributing</a>
+</p>
 
-- Estado: En desarrollo activo
-- Lenguaje: Java 21
-- Objetivo: Plataforma para registrar estudiantes, carreras, asignaturas, evaluaciones y obtener estadísticas/insights de notas. 
+<p align="center">
+  <img alt="Status" src="https://img.shields.io/badge/Status-Active%20Development-3fb950?style=flat-square" />
+  <img alt="Java" src="https://img.shields.io/badge/Java-21-007396?style=flat-square&logo=java&logoColor=white" />
+  <img alt="Spring Boot" src="https://img.shields.io/badge/Spring%20Boot-3.5.6-6DB33F?style=flat-square&logo=springboot&logoColor=white" />
+  <img alt="Build" src="https://img.shields.io/badge/Build-Maven-C71A36?style=flat-square&logo=apachemaven&logoColor=white" />
+  <img alt="Database" src="https://img.shields.io/badge/Database-PostgreSQL-336791?style=flat-square&logo=postgresql&logoColor=white" />
+  <img alt="Docker" src="https://img.shields.io/badge/Docker-Ready-2496ED?style=flat-square&logo=docker&logoColor=white" />
+</p>
 
-## Características clave
-- API REST con Spring Boot 3.5.6 (Web, Security, Validation, Data JPA)
-- Autenticación JWT stateless
-- Persistencia en PostgreSQL con JPA/Hibernate
-- Mapeo entre entidades y DTOs con MapStruct 1.6.3
-- Documentación de API con springdoc-openapi (Swagger UI)
-- IA conversacional con Spring AI (Google GenAI) y chat memory JDBC
-- Empaquetado con Maven y soporte Docker/Docker Compose
+## Overview
 
-## Arquitectura (capas y módulos)
-- Configuración (`config/`): Beans, configuración de seguridad, etc.
-- Seguridad (`jwt/`): Filtro y servicio de emisión/validación de tokens JWT
-- Dominio (`domain/`): DTOs, enums, excepciones, servicios de dominio
-- Persistencia (`persistence/`): Entities, repositorios JPA, mappers MapStruct
-- Web/API (`web/controller/`, `web/exception/`): Controladores REST y manejo de errores
+Backend for StudyU Flow, a platform to manage university academic performance. Built with Spring Boot 3, it exposes secure JWT-based REST APIs, persists data in PostgreSQL, and documents the contract with OpenAPI/Swagger. It also integrates an AI chat assistant powered by Spring AI (Google GenAI) with JDBC chat memory.
 
-## Diagrama del modelo de datos
-<img width="800" height="1000" alt="StudyU Flow DB" src="https://github.com/user-attachments/assets/11961c23-9dad-4979-8b7d-46133026b244" />
+- Status: Active development
+- Language: Java 21
+- Goal: Register students, degrees, subjects, evaluations, and retrieve grade statistics/insights.
 
-  
-Controladores principales:
-- `AuthController` — Registro y login (`/auth/**`)
+## Key Features
+
+- REST API with Spring Boot 3.5.6 (Web, Security, Validation, Data JPA)
+- Stateless JWT authentication
+- PostgreSQL persistence with JPA/Hibernate
+- Entity-to-DTO mapping via MapStruct 1.6.3
+- API documentation using springdoc-openapi (Swagger UI)
+- Conversational AI with Spring AI (Google GenAI) + JDBC chat memory
+- Maven build; Docker/Docker Compose support
+
+## Architecture
+
+- Configuration (`config/`): Beans, security configuration, etc.
+- Security (`jwt/`): JWT filter and token issuance/validation services
+- Domain (`domain/`): DTOs, enums, exceptions, domain services
+- Persistence (`persistence/`): Entities, JPA repositories, MapStruct mappers
+- Web/API (`web/controller/`, `web/exception/`): REST controllers and error handling
+
+### Controllers (main endpoints)
+
+- `AuthController` — Registration and login (`/auth/**`)
 - `StudentController`, `DegreeController`, `SubjectController`, `EvaluationController`, `StudentDegreeController`
-- `GradeStatisticsController` — Estadísticas de notas
-- `DocumentController` — Documentos
-- `AIChatController` — Endpoints de chat IA
+- `GradeStatisticsController` — Grade statistics and insights
+- `DocumentController` — Documents
+- `AIChatController` — AI chat endpoints
 
-## Stack técnico
+## Data Model Diagram
+
+<img width="800" height="1000" alt="StudyU Flow DB Diagram" src="https://github.com/user-attachments/assets/11961c23-9dad-4979-8b7d-46133026b244" />
+
+## Tech Stack
+
 - Java 21
 - Spring Boot 3.5.6
-- Spring Data JPA, Spring Security, Validation
-- PostgreSQL (driver oficial)
+- Spring Data JPA, Spring Security, Bean Validation
+- PostgreSQL (official driver)
 - JWT (jjwt 0.11.5)
 - MapStruct 1.6.3
 - springdoc-openapi 2.8.13
-- Spring AI (BOM 1.1.0-M1, Google GenAI + chat-memory JDBC)
+- Spring AI (BOM 1.1.0-M1, Google GenAI + JDBC chat memory)
 - Maven, Docker/Docker Compose
 
-## Inicio rápido
-Prerequisitos:
-- Java 21 (JDK) y Maven 3.9+
-- Docker y Docker Compose (recomendado para entorno local)
-- (Opcional IA) Clave de Google GenAI: `GOOGLE_GENAI_API_KEY`
+## Getting Started
 
-### Opción A: Docker Compose (API + Postgres)
-El repositorio incluye `docker-compose.yaml` y `Dockerfile` multi-stage.
+Prerequisites:
+- Java 21 (JDK) and Maven 3.9+
+- Docker and Docker Compose (recommended for local setup)
+- Optional AI: Google GenAI API Key `GOOGLE_GENAI_API_KEY`
 
-1) Exporta la API key si usarás IA:
+### Option A: Docker Compose (API + PostgreSQL)
+
+The repository includes a multi-stage `Dockerfile` and `docker-compose.yaml`.
+
+1) Export your API key if you will use AI:
 ```bash
 # PowerShell
-$env:GOOGLE_GENAI_API_KEY="<tu_api_key>"
+$env:GOOGLE_GENAI_API_KEY="<your_api_key>"
 # Bash
-export GOOGLE_GENAI_API_KEY="<tu_api_key>"
+export GOOGLE_GENAI_API_KEY="<your_api_key>"
 ```
 
-2) Levanta servicios:
+2) Start services:
 ```bash
 docker compose up --build
 ```
 
-3) API disponible en: http://localhost:8080  
+3) API: http://localhost:8080  
 4) Swagger UI: http://localhost:8080/swagger-ui/index.html
 
-### Opción B: Local con Maven (Postgres aparte)
-1) Inicia un Postgres local (o en Docker) con tu usuario/contraseña preferidos:
+### Option B: Local with Maven (PostgreSQL external)
+
+1) Start a local PostgreSQL (or via Docker) with your preferred credentials:
 ```bash
 docker run --name studyu-postgres \
   -e POSTGRES_DB=studyu_flow_db \
-  -e POSTGRES_USER=<usuario> \
+  -e POSTGRES_USER=<user> \
   -e POSTGRES_PASSWORD=<password> \
   -p 5432:5432 -d postgres:latest
 ```
 
-2) Configura las variables de entorno (ver sección “Configuración”) y, si usarás IA:
+2) Configure environment variables (see “Configuration”). If you’ll use AI:
 ```bash
-export GOOGLE_GENAI_API_KEY="<tu_api_key>"
+export GOOGLE_GENAI_API_KEY="<your_api_key>"
 ```
 
-3) Compila y ejecuta:
+3) Build and run:
 ```bash
 mvn clean package
 java -jar target/StudyU_Flow-0.0.1-SNAPSHOT.jar
-# o durante desarrollo
+# or during development
 mvn spring-boot:run
 ```
 
-## Configuración
-Archivos base: `src/main/resources/application.properties`  
-Perfil por defecto: `dev` (sobre-escribible con `SPRING_PROFILES_ACTIVE`)
+## Configuration
 
-- Driver PostgreSQL: `org.postgresql.Driver`
-- JPA/Hibernate: `spring.jpa.hibernate.ddl-auto=update` (en dev)
-- Spring AI: requiere `GOOGLE_GENAI_API_KEY` si se usan endpoints de IA
+Base files: `src/main/resources/application.properties`  
+Default profile: `dev` (override with `SPRING_PROFILES_ACTIVE`)
 
-Variables de entorno recomendadas (no incluir credenciales reales en archivos versionados):
-- `SPRING_DATASOURCE_URL` (ej. `jdbc:postgresql://localhost:5432/studyu_flow_db`)
+- PostgreSQL Driver: `org.postgresql.Driver`
+- JPA/Hibernate: `spring.jpa.hibernate.ddl-auto=update` (in dev)
+- Spring AI: requires `GOOGLE_GENAI_API_KEY` if AI endpoints are used
+
+Recommended environment variables (avoid committing real credentials):
+- `SPRING_DATASOURCE_URL` (e.g., `jdbc:postgresql://localhost:5432/studyu_flow_db`)
 - `SPRING_DATASOURCE_USERNAME`
 - `SPRING_DATASOURCE_PASSWORD`
+- `SPRING_PROFILES_ACTIVE` (e.g., `dev`)
 - `GOOGLE_GENAI_API_KEY`
 
-Sugerencia: usar un archivo `.env` local (excluido del VCS) para Compose o exportar variables en tu shell.
+Tip: Use a local `.env` (excluded from VCS) for Compose or export variables in your shell.
 
-## Seguridad y autenticación
-- Esquema: JWT (stateless) con `JwtAuthenticationFilter`
-- Endpoints públicos: `/auth/**`, Swagger (`/swagger-ui/**`, `/v3/api-docs/**`)
-- Resto de endpoints: requieren `Authorization: Bearer <token>`
+## Security & Auth
 
-Flujo:
-1) Registro: `POST /auth/register`
-2) Login: `POST /auth/login` → devuelve `token` JWT
-3) Consumir endpoints protegidos con header: `Authorization: Bearer <token>`
+- Scheme: JWT (stateless) with `JwtAuthenticationFilter`
+- Public endpoints: `/auth/**`, Swagger (`/swagger-ui/**`, `/v3/api-docs/**`)
+- All other endpoints: require `Authorization: Bearer <token>`
 
-Ejemplo de login:
+Flow:
+1) Register: `POST /auth/register`  
+2) Login: `POST /auth/login` → returns JWT `token`  
+3) Call protected endpoints with header: `Authorization: Bearer <token>`
+
+Login example:
 ```bash
 curl -X POST http://localhost:8080/auth/login \
   -H "Content-Type: application/json" \
   -d '{"username":"UserNameExample","password":"0123456789"}'
 ```
 
-## Documentación de API
-- Swagger UI: http://localhost:8080/swagger-ui/index.html
+## API Documentation
+
+- Swagger UI: http://localhost:8080/swagger-ui/index.html  
 - OpenAPI JSON: http://localhost:8080/v3/api-docs
 
-Consulta Swagger para ver rutas, cuerpos y ejemplos de respuesta.
+Use Swagger to view routes, request bodies, and response examples.
 
-## Pruebas
-- Ejecutar pruebas: `mvn test`
-- Ubicación de tests: `src/test/java/com/api/StudyU_Flow/`  
-  Incluye pruebas de servicios como `EvaluationServiceTest`, `GradeStatisticsServiceTest`.
+## Testing
 
-## Estructura del proyecto (resumen)
+- Run tests: `mvn test`
+- Tests location: `src/test/java/com/api/StudyU_Flow/`  
+  Includes service tests like `EvaluationServiceTest`, `GradeStatisticsServiceTest`.
+
+## Project Structure (summary)
+
 ```
 backend/
  ├─ src/main/java/com/api/StudyU_Flow/...
@@ -155,18 +194,21 @@ backend/
  └─ docker-compose.yaml
 ```
 
-## Decisiones técnicas
-- DTOs y mappers: MapStruct para reducir boilerplate y asegurar contratos estables hacia el exterior.
-- Validación: `jakarta.validation` en payloads de entrada para robustez.
-- Seguridad: JWT para sesiones stateless y escalabilidad horizontal.
-- Observabilidad/doc: springdoc-openapi para describir y probar la API desde Swagger UI.
-- IA: Spring AI con proveedor Google GenAI para enriquecer la experiencia con chat contextual y memoria vía JDBC.
+## Technical Decisions
 
-## Resolución de problemas
-- Conexión a BD: revisa `SPRING_DATASOURCE_*` y que Postgres escuche en `5432`
-- Swagger no carga: confirma que la app corre en `8080` y `springdoc` está incluido
-- IA falla: define `GOOGLE_GENAI_API_KEY` y valida el modelo (ej. `gemini-2.5-flash`) en configuración
+- DTOs and mappers: MapStruct reduces boilerplate and stabilizes external contracts.
+- Validation: `jakarta.validation` for robust input payloads.
+- Security: JWT for stateless sessions and horizontal scalability.
+- Observability/docs: springdoc-openapi to describe and test the API via Swagger UI.
+- AI: Spring AI with Google GenAI to enable contextual chat with JDBC-backed memory.
 
-## Contribución
-- Mantén el estilo por capas (config/jwt/domain/persistence/web)
-- Acompaña tus PRs con descripción técnica y tests
+## Troubleshooting
+
+- Database connection: verify `SPRING_DATASOURCE_*` and that PostgreSQL listens on `5432`.
+- Swagger not loading: confirm the app runs on port `8080` and `springdoc` is included.
+- AI errors: set `GOOGLE_GENAI_API_KEY` and ensure the configured model (e.g., `gemini-2.5-flash`) is valid.
+
+## Contributing
+
+- Keep the layered style (config/jwt/domain/persistence/web).
+- Accompany your PRs with a technical description and tests.
